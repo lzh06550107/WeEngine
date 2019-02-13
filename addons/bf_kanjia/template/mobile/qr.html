@@ -1,0 +1,30 @@
+{template 'common/header-base'}
+<!-- 扫码 -->
+<div class="qr-box" ng-controller="qrController">
+  <div class="inner">
+    {if empty($_SESSION['qrcode_password'])}
+    <div class="text-center">
+      <i class="font icon-dao"></i>
+    </div>
+    <div>
+      <input class="input" type="text" class="form-control" placeholder="请输入核销检验码" ng-model="password">
+    </div>
+    <div>
+      <button class="btn" type="button" ng-click="check();">校验</button>
+    </div>
+    {else}
+    <div class="saoma-box text-center" ng-click="saoma();">
+      <i class="font icon-saoma"></i>
+      <div class="text">点击上图开启扫码</div>
+    </div>
+    {/if}
+  </div>
+</div>
+<style media="screen">
+.footer{ display: none; }
+</style>
+<script type="text/javascript">
+var KANJIA_QRAJAX_URL = "{php echo $this->createMobileUrl('qrajax')}";
+var KANJIA_SAOMA_URL = "{php echo $this->createMobileUrl('saoma')}";
+</script>
+{template 'common/footer-base'}

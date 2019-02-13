@@ -1,0 +1,519 @@
+{template 'common/header'}
+<script type="text/javascript">
+  require(['bootstrap'], function($) {
+    $('.btn').hover(function() {
+      $(this).tooltip('show');
+    }, function() {
+      $(this).tooltip('hide');
+    });
+  });
+</script>
+<ul class="nav nav-tabs">
+  <li >
+    <a href="{php echo $this->createWebUrl('manager', array('op'=>'list'));}">砍价管理</a>
+  </li>
+  <li>
+    <a href="{php echo $this->createWebUrl('manager', array('op'=>'post'));}">添加砍价</a>
+  </li>
+  <li class="active">
+    <a href="{php echo $this->createWebUrl('manager', array('op'=>'weidian'));}">微店模式添加砍价</a>
+  </li>
+</ul>
+{template 'basic'}
+{if empty($step)}
+<div class="main">
+  <form id="form" class="form-horizontal" action="" method="post">
+    <div class="panel panel-default">
+      <div class="panel-heading">微店产品链接</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">
+            链接地址
+            <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-4 col-md-10">
+            <input type="text" name="url" class="form-control" value="">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-5">
+            <input type="hidden" name="c" value="{$_GPC['c']}" />
+            <input type="hidden" name="a" value="{$_GPC['a']}" />
+            <input type="hidden" name="do" value="{$_GPC['do']}" />
+            <input type="hidden" name="m" value="{$_GPC['m']}" />
+            <input type="hidden" name="op" value="{$_GPC['op']}" />
+            <input type="hidden" name="step" value="1"/>
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+            <button class="btn btn-primary" type="submit" name="submit" value="1">提交</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{else}
+<div class="main">
+  <form id="form" class="form-horizontal" action="" method="post">
+    <div class="panel panel-default">
+      <div class="panel-heading">基本信息</div>
+      <div class="panel-body">
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              砍价名称
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-sm-4 col-md-5">
+              <input type="text" name="title" class="form-control" value="{$kanjia['title']}"></div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              封面
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-sm-4 col-md-5">
+              {php echo tpl_form_field_image('cover', $kanjia['cover']);}
+              <div class="text-danger">建议上传660像素*440像素的图片，显示效果更佳。</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">
+              活动时间
+              <span class="text-danger">*</span>
+            </label>
+            <div class="col-sm-4 col-md-5">
+              {php echo tpl_form_field_daterange('time', array("start"=>date('Y-m-d H:i:s', $kanjia['starttime']), "end"=>date('Y-m-d H:i:s', $kanjia['endtime'])), true);}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">联系方式</label>
+            <div class="col-sm-4 col-md-5">
+              <input type="text" name="tel" class="form-control" value="{$kanjia['tel']}" placeholder="可填写座机或者手机"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">购买方式</label>
+            <div class="col-sm-4 col-md-10">
+              <select class="form-control" name="buy_type">
+                <option value="0" {if $kanjia['buy_type'] == 0}selected="selected"{/if}>参与活动</option>
+                <option value="1" {if $kanjia['buy_type'] == 1}selected="selected"{/if}>砍到底价</option>
+                <option value="2" {if $kanjia['buy_type'] == 2}selected="selected"{/if}>人工处理</option>
+              </select>
+              <div class="help-block">
+                参与活动即可购买或者砍到底价才能购买，前者有利于销售产品，后者有利于吸粉。当不满足以上两种方式时，可用人工处理自由规划购买流程和方法。
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 col-md-2 control-label">参与须知</label>
+            <div class="col-sm-4 col-md-10">
+              {php echo tpl_ueditor('notice', $kanjia['notice']);}
+              <div class="help-block">参与须知模版：<a href="{MODULE_URL}xuzhi.txt" target="_blank">点击查看</a></div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">产品信息</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">
+            名称
+            <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-4 col-md-5">
+            <input type="text" name="product_name" class="form-control" value="{$kanjia['product_name']}"></div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">
+            图片
+            <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-4 col-md-5">
+            {php echo tpl_form_field_image('product_image', $kanjia['product_image']);}
+            <div class="text-danger">建议上传400像素*400像素的图片，显示效果更佳。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">
+            原价
+            <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-4 col-md-5">
+            <div class="input-group">
+              <input type="text" name="product_price" class="form-control" value="{php echo floatval($kanjia['product_price'])}"/>
+              <span class="input-group-addon">元</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">
+            底价
+            <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-4 col-md-5">
+            <div class="input-group">
+              <input type="text" name="product_pricelow" class="form-control" value="{php echo floatval($kanjia['product_pricelow'])}"/>
+              <span class="input-group-addon">元</span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">
+            库存
+            <span class="text-danger">*</span>
+          </label>
+          <div class="col-sm-4 col-md-5">
+            <input type="number" name="product_inventory" class="form-control" value="{$kanjia['product_inventory']}" min="1"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">产品详情</label>
+          <div class="col-sm-10 col-md-10">
+            {php echo tpl_ueditor('product_detail', $kanjia['product_detail']);}
+            <div class="text-danger">请尽量少放图片或者放小图，提高访问速度利于推广</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">产品链接</label>
+          <div class="col-sm-4 col-md-10">
+            <input type="text" name="product_url" class="form-control" value="{$kanjia['product_url']}"></div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">砍价规则</div>
+      <div class="panel-body">
+        <div class="alert alert-danger">
+          请记得设置规则时“金额大于”该选项，必须设置一个金额等于底价的。温馨提示：如需要填写角、分时切记使用英文的 "."。
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>金额大于/元</th>
+              <th>砍掉金额/元（最小）</th>
+              <th>砍掉金额/元（最大）</th>
+              <th class="text-right">操作</th>
+            </tr>
+          </thead>
+          <tbody id="J_kanjia_rule">
+            {loop $kanjia["rules"] $rule}
+            <tr>
+              <td>
+                <input name="price[]" type="text" class="form-control" value="{$rule['price']}"></td>
+              <td>
+                <input name="min[]" type="text" class="form-control" value="{$rule['min']}"></td>
+              <td>
+                <input name="max[]" type="text" class="form-control" value="{$rule['max']}"></td>
+              <td class="text-right">
+                <a class="btn btn-danger btn-sm" href="javascript:;" onclick="remove_kanjia_rule(this);">
+                  删除
+                </a>
+              </td>
+            </tr>
+            {/loop}
+          </tbody>
+        </table>
+        <div class="help-block">
+          <a class="btn btn-default btn-sm" href="javascript:;" onclick="add_kanjia_rule();">添加规则</a>
+        </div>
+        <script type="text/javascript">
+          require(["jquery"], function($){
+          });
+          function add_kanjia_rule(){
+            var html = '';
+            html += '<tr>';
+            html += '<td><input name="price[]" type="text" class="form-control" value=""></td>';
+            html += '<td><input name="min[]" type="text" class="form-control" value=""></td>';
+            html += '<td><input name="max[]" type="text" class="form-control" value=""></td>';
+            html += '<td class="text-right"><a class="btn btn-danger btn-sm" href="javascript:;" onclick="remove_kanjia_rule(this)">删除</a></td>';
+            html += '</tr>';
+            $("#J_kanjia_rule").append(html);
+          }
+          function remove_kanjia_rule(ele){
+            if(!confirm('删除后将不可恢复,确定删除吗?')) return false;
+            $(ele).parents("tr").remove();
+          }
+        </script>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">黑名单<span class="text-danger">&nbsp;&nbsp;提示：可限制个别常常刷活动的粉丝参与本次活动！</span></div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">粉丝</label>
+          <div class="col-sm-4 col-md-5">
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#J_fansModal">添加新粉丝</button>
+              </div>
+            </div>
+            <div id="J_openid_box">
+              <p></p>
+              {loop $kanjia["blacklist_openid"] $key $value}
+              <div class="J_input-group input-group" style="margin-top:6px;">
+                <span class="input-group-addon">{$kanjia["blacklist_nickname"][$key]}</span>
+                <input type="hidden" name="blacklist_nickname[]" value="{$kanjia['blacklist_nickname'][$key]}" />
+                <input type="text" name="blacklist_openid[]" value="{$value}" class="form-control" readonly>
+                <div class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="remove_fans(this);">删除</button>
+                </div>
+              </div>
+              {/loop}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">提示语</label>
+          <div class="col-sm-10 col-md-10">
+            <input type="text" name="blacklist_notice" class="form-control" value="{$kanjia['blacklist_notice']}" placeholder="亲，您在上期活动中已砍得产品，剩下的机会留给其他人吧~"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">分享设置<span class="text-danger">&nbsp;&nbsp;备注：分享设置可以不用填写，系统会默认帮你设置，也可以自己设置</span></div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享标题</label>
+          <div class="col-sm-4 col-md-5">
+            <input type="text" name="share_title" class="form-control" value="{if empty($kanjia['share_title'])}我正在参加砍价活动，快来帮我砍价吧！{else}{$kanjia['share_title']}{/if}"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享链接</label>
+          <div class="col-sm-4 col-md-5">
+            <input type="text" name="share_link" class="form-control" value="{$kanjia['share_link']}"/>
+            <div class="help-block">一般情况下建议不要填写，由系统控制分享链接。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享图片</label>
+          <div class="col-sm-4 col-md-5">
+            {if empty($kanjia['share_imgUrl'])}
+              {php echo tpl_form_field_image('share_imgUrl', MODULE_URL . "icon.jpg");}
+            {else}
+              {php echo tpl_form_field_image('share_imgUrl', $kanjia['share_imgUrl']);}
+            {/if}
+            <div class="text-danger">建议上传100像素*100像素的图片，显示效果更佳。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享描述</label>
+          <div class="col-sm-4 col-md-5">
+            <textarea name="share_desc" class="form-control" rows="4">{if empty($kanjia['share_desc'])}你也可以参加哦，好东东免费拿回家！{else}{$kanjia['share_desc']}{/if}</textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    {if $_W["role"] != "operator"}
+    <div class="panel panel-danger">
+      <div class="panel-heading">管理员功能</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">参与强制关注</label>
+          <div class="col-sm-4 col-md-10">
+            <label class="radio-inline">
+              <input type="radio" name="follow_must" value="0" {if empty($kanjia['follow_must'])}checked{/if}/>关闭
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="follow_must" value="1" {if !empty($kanjia['follow_must'])}checked{/if}/>开启
+            </label>
+            <div class="help-block">开启强制关注有被微信封号危险，请慎重考虑！</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">帮砍强制关注</label>
+          <div class="col-sm-4 col-md-10">
+            <label class="radio-inline">
+              <input type="radio" name="follow_must_help" value="0" {if empty($kanjia['follow_must_help'])}checked{/if}/>关闭
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="follow_must_help" value="1" {if !empty($kanjia['follow_must_help'])}checked{/if}/>开启
+            </label>
+            <div class="help-block">开启强制关注有被微信封号危险，请慎重考虑！</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">商家入驻链接</label>
+          <div class="col-sm-4 col-md-10">
+            <input type="text" name="join_url" class="form-control" value="{$kanjia['join_url']}"/>
+            <div class="help-block">指引有意向商家入驻，系统已支持商家发布活动。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">关注链接</label>
+          <div class="col-sm-4 col-md-10">
+            <input type="text" name="follow_url" class="form-control" value="{$kanjia['follow_url']}"/>
+            <div class="help-block">用于页面上的一键关注按钮。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">帮砍次数</label>
+          <div class="col-sm-4 col-md-10">
+            <input type="text" name="max_help" class="form-control" value="{$kanjia['max_help']}"/>
+            <div class="help-block">同一粉丝在该活动最多可帮砍次数,默认0表示不限制。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">ip限制</label>
+          <div class="col-sm-4 col-md-10">
+            <div class="input-group">
+              <input type="text" name="ip_max" class="form-control" value="{$kanjia['ip_max']}"/>
+              <span class="input-group-addon">次</span>
+            </div>
+            <div class="text-danger">同一ip在本次活动中的可帮砍次数，ip每天会自动更新一次，默认0表示不限制。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">页面底部</label>
+          <div class="col-sm-4 col-md-10">
+            <textarea name="footer" class="form-control">{$kanjia['footer']}</textarea>
+            <div class="help-block">可通过该选项自由定义APP端页面底部的文字内容或者添加第三方统计代码。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">操作</label>
+          <div class="col-sm-4 col-md-5">
+            <label class="radio-inline">
+              <input name="status" type="radio" value="0" {if $kanjia['status'] == 0}checked{/if}> 待审核
+            </label>
+            <label class="radio-inline">
+              <input name="status" type="radio" value="1" {if $kanjia['status'] == 1}checked{/if}> 已审核
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    {/if}
+    <div class="form-group">
+      <div class="col-md-12">
+        <input type="hidden" name="c" value="{$_GPC['c']}" />
+        <input type="hidden" name="a" value="{$_GPC['a']}" />
+        <input type="hidden" name="do" value="{$_GPC['do']}" />
+        <input type="hidden" name="m" value="{$_GPC['m']}" />
+        <input type="hidden" name="op" value="post" />
+        <input type="hidden" name="token" value="{$_W['token']}"/>
+        <button class="btn btn-primary" type="submit" name="submit" value="1">提交</button>
+      </div>
+    </div>
+  </form>
+</div>
+<!--粉丝-->
+<div id="J_fansModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">选择粉丝</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <input id="J_search_keyword" type="text" class="form-control" value="" placeholder="请输入粉丝昵称/姓名/手机号">
+          <span class="input-group-btn">
+          <button id="J_search_fans" type="button" class="btn btn-default">搜索</button>
+          </span> </div>
+          <div class="table-responsive">
+            <table class="table table-hover" style="table-layout: fixed;">
+              <thead>
+              <th class="text-center">粉丝编号</th>
+                <th class="text-center">粉丝昵称</th>
+                <th class="text-center">会员名称</th>
+                <th class="text-center">会员手机</th>
+                <th class="text-right">操作</th>
+                  </thead>
+              <tbody id="J_search_result">
+                <tr>
+                  <td colspan="4" align="center">未找到粉丝</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var URL = "{php echo $this->createWebUrl('manager', array('op'=>'fans'));}";
+  function remove_fans(ele){
+    $(ele).parents(".J_input-group").remove();
+  }
+  require(['jquery', 'util'], function($, util){
+    $(function(){
+      $("#J_Add").on("click",function(){
+        $('#J_AdvBox').append($('#J_AdvBox').children().eq(0).clone(true));
+      });
+      $(".J_Close").on("click", function(){
+        $(this).parents(".J_Adv").remove();
+      });
+      //搜索粉丝
+      $("#J_search_fans").on("click", function(){
+        if($("#J_search_keyword").val() == ""){
+           util.message('您还未填写粉丝的相关信息呢！', '', 'error');
+        }else{
+          $.post(URL,{"keyword": $("#J_search_keyword").val()}, function(json){
+            //循环
+            var html = '';
+            $.each(json, function(index, value){
+              html += '<tr><td class="text-center">'+ value.openid +'</td>';
+              html += '<td class="text-center">'+ value.nickname +'</td>';
+              html += '<td class="text-center">'+ value.username +'</td>';
+              html += '<td class="text-center">'+ value.mobile +'</td>';
+              html += '<td class="text-right"><a class="J_Choose_Fans" data-nickname="'+ value.nickname +'" data-openid="'+ value.openid +'" href="javascript:;">选择该粉丝</a></td></tr>';
+            });
+            $("#J_search_result").html(html);
+          }, "json");
+        }
+      });
+      $(document).on("click", ".J_Choose_Fans", function(){
+        var html = '<div class="J_input-group input-group" style="margin-top:6px;">';
+        html += '<span class="input-group-addon">' + $(this).data("nickname") + '</span>';
+        html += '<input type="hidden" name="blacklist_nickname[]" value="' +$(this).data("nickname") + '"/>';
+        html += '<input type="text" name="blacklist_openid[]" value="' + $(this).data("openid") + '" class="form-control" readonly>';
+        html += '<div class="input-group-btn">';
+        html += '<button class="btn btn-default" type="button" onclick="remove_fans(this);">删除</button>';
+        html += '</div>';
+        html += '</div>';
+        $('#J_openid_box').append(html);
+        $('#J_fansModal').modal('hide');
+      });
+    });
+  });
+  require(["jquery", "util"], function($, util){
+    $(function(){
+      $("#form").on("submit", function(){
+        var _ = $(this);
+        if(_.find("[name=title]").val() == ""){
+          util.message("亲，砍价名称忘记填写了哦！", "", "error");
+          return false;
+        }
+        if(_.find("[name=cover]").val() == ""){
+          util.message("亲，封面图忘记上传了哦！", "", "error");
+          return false;
+        }
+        if(_.find("[name=product_name]").val() == ""){
+          util.message("亲，产品名称忘记填写了哦！", "", "error");
+          return false;
+        }
+        if(_.find("[name=product_image]").val() == ""){
+          util.message("亲，产品图片忘记上传了哦！", "", "error");
+          return false;
+        }
+        if(_.find("[name=product_price]").val() == ""){
+          util.message("亲，该产品原价是多少？", "", "error");
+          return false;
+        }
+        if(parseFloat(_.find("[name=product_pricelow]").val()) < 0){
+          util.message("亲，底价最少也要0元哦！", "", "error");
+          return false;
+        }
+        if(parseInt(_.find("[name=product_inventory]").val()) <= 0 || _.find("[name=product_inventory]").val() == ""){
+          util.message("亲，至少也提供1个产品参与活动吧？", "", "error");
+          return false;
+        }
+        return true;
+      });
+    });
+  });
+</script>
+{/if}
+{template 'common/footer'}

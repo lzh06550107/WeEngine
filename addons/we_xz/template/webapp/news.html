@@ -1,0 +1,65 @@
+﻿{php include $this->template('header-enterprise')}
+<head>
+    <title>资讯中心|{$setting['keywords']}|{$setting['profile']}</title>
+</head>
+{php include $this->template('banner-enterprise')}
+    <div class="main_box main_box_style1">
+        <div class="main_box_inner">
+            <div class="main_box_inner_left">
+                <div id="nav_131" class="nav_box nav_box_menu">
+                    <div class="nav_title">
+                        <span class="nav_sign">新闻中心</span>
+                        <span class="nav_more"></span>
+                    </div>
+
+                    <div id="nav_menu_131" class="nav_menu">
+                        <ul id="rootul_131">
+                            {loop $new_cates $vl}
+                            <li id="sl755 current"><a href="{php echo url('entry/webapp/News', array('eid' => $_GPC['eid'], 'm' => 'we_xz','type'=>$vl['id']))}" class="sla755" title="{$vl['title']}">{$vl['title']}</a>
+                            </li>
+                            {/loop}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main_box_inner_right">
+                <div class="current_location current_location_755">
+                    <ul>
+                        <li class="current_location_1">当前位置：
+                            <a href="{php echo url('entry/webapp/Fengmian', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">首页</a> >
+                            <a href="{php echo url('entry/webapp/News', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">新闻中心</a>
+                        </li>
+                        <li class="current_location_2">新闻中心</li>
+                    </ul>
+                </div>
+
+                <div class="sublanmu_box sublanmu_box_755">
+                    <div class="sublanmu_content sublanmu_content_product">
+                        <!-- 新闻详情页 -->
+                        {loop $lists $key $list}
+                        <dl class="news_dl">
+                            <dt><a href="{php echo url('entry/webapp/News_detail', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$list['id']))}" title="{$list['title']}" class="dt_1">
+                                {$list['title']}</a></dt>
+                            <dd>{php echo date('Y-m-d',$list['create_time'])}</dd>
+                        </dl>
+                        {/loop}
+                        <div class="clear"></div>
+                        <!-- 分页 -->
+                        <div class="lp_a1_7" style="text-align:center; height:80px; padding-top:15px;">
+                            <div class="pages cf">
+                                <div style="padding-left:400px;display:block;">{$pager}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear main_box_inner_bottom"></div>
+    </div>
+    <!--底部-->
+    {php include $this->template('footer-enterprise')}
+</div>
+</body>
+</html>

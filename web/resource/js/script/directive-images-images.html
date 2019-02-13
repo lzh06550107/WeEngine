@@ -1,0 +1,113 @@
+<div class="modal-dialog modal-lg" ng-controller="we7resource-image-controller">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel1">图片</h4></div>
+        <div class="modal-body material-content clearfix">
+            <div class="material-nav">
+                <a href="javascript:;" ng-click="setIndex(0)" ng-show="showWx()"  ng-class="{true:'active',false:''}[index==0]">微信</a>
+                <a href="javascript:;" ng-click="setIndex(1)" ng-show="showLocal()" ng-class="{true:'active',false:''}[index==1]">本地服务器</a>
+                <a href="javascript:;" ng-click="setIndex(2)" ng-class="{true:'active',false:''}[index==2]">提取网络图片</a>
+            </div>
+            <div class="material-head">
+                <form action="" method="get" class="form-horizontal clearfix form-inline" role="form">
+                    <div class="input-group filter">
+                        <select name=""  class="we7-select pull-left"  ng-show="index==1" ng-model="year">
+                            <option value="0" ng-selected="true">不限年份</option>
+                            <option ng-repeat="(key, year) in years" value="{{year}}">{{year}}</option>
+                        </select>
+                        <select name="" class="we7-select pull-left" ng-show="index==1" ng-model="month">
+                            <option value="0" ng-selected="true">不限月份</option>
+                            <option ng-repeat="(key, month) in months" value="{{month}}">{{month}}</option>
+                        </select>
+                        <span class="input-group-btn pull-left" ng-show="index==1" ng-click="search()">
+                            <button  class="btn btn-default" type="button"><span class="wi wi-search"></span></button>
+                        </span>
+                    </div>
+                    <div class="pull-right btn-uploader form-inline" style="z-index: 10" ng-show="index<2">
+                        <a ng-click="delSel()" class="btn btn-danger">删除</a>
+                        <div class="btn-group we7-margin-horizontal-sm">
+                            <button type="button" class="btn btn-primary">移动</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li ng-repeat="(key, value) in groups | filter : {deleted : false}" ng-click="moveToGroup(value)"><a>{{value.name}}</a></li>
+                            </ul>
+                        </div>
+                        <we7-uploader-btn upload-url="uploadurl" on-uploaded="uploaded()" on-upload-error="uploaderror(mes)" multiple name="uploadname" accept="accept"></we7-uploader-btn>
+                    </div>
+                </form>
+            </div>
+            <div id="image" class="material-body" ng-show="index!=2">
+                <div class="clearfix">
+                    <div class="category">
+                        <div class="add"><a ng-click="doAddGroup();" class="color-default"><i
+                                class="wi wi-registersite"></i>添加分组</a></div>
+                        <div class="category-menu panel-group" id="category-menu" role="tablist"
+                             aria-multiselectable="true">
+                            <ul>
+                                <li ng-click="loadAll()" ng-class="{true : 'active', false : ''}[groupid == -1]">
+                                    <div class="name"><i class="wi wi-file"></i>全部</div>
+                                    <a class="edit"></a></li>
+                                <li ng-click="loadNoGroup()" ng-class="{true : 'active', false : ''}[groupid == 0]">
+                                    <div class="name"><i class="wi wi-file"></i>未分组</div>
+                                    <a href="javascript:;" class="edit"></a></li>
+                                <li ng-repeat="(key, value) in groups | filter : {deleted : false}"
+                                    ng-click="loadImages(value)"
+                                    ng-class="{true : 'active', false : ''}[groupid == value.id]">
+                                    <div class="name"><i class="wi wi-file"></i>
+                                        <input type="text" class="form-control"  ng-model="value.name" ng-if="value.editing">
+                                        {{!value.editing ? value.name :''}}
+                                        <span class="setting" v-show="!value.editable && !value.editing" ng-click="doEditGroup(value)">
+                                            <i class="wi wi-appsetting"></i>
+                                        </span>
+                                    </div>
+                                    <div class="edit" ng-class="{true : 'show', false : ''}[value.editable]">
+                                        <a class="color-default" ng-show="!value.editing" ng-click="editing(value)"><i class="wi wi-text"></i>编辑</a>
+                                        <a class="color-red" ng-show="!value.editing" ng-click="delGroup(value)"><i class="wi wi-delete2"></i>删除</a>
+                                        <a class="color-default" ng-show="value.editing" ng-click="edited(value)">
+                                            <i class="wi wi-right-sign">确定</i>
+                                        </a>
+                                        <a class="color-default" ng-show="value.editing" ng-click="cancelEditing(value)">
+                                            <i class="wi wi-error-sign"></i>取消</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="we7-form form-inline selected-all">
+                        <input type="checkbox" id="selected-all" ng-model="selectedAllImage" ng-change="selectedAll(selectedAllImage)">
+                        <label for="selected-all">全选</label>
+                    </div>
+                    <div class="img-container we7-flex">
+                        <div class="item" ng-class="{true:'active',false:''}[value.selected]"
+                             ng-repeat="(key, value) in images" ng-click="itemClick(value)"
+                             style="background-image: {{getImage(value)}}">
+                            <div class="name">{{value.filename}}</div>
+                            <div class="mask"><span class="wi wi-right"></span></div>
+                            <div class="del" ng-click="delItem(value,$event)"><span class="wi wi-delete2"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="img-net text-center" ng-show="index==2">
+                <form action="" method="get" class="we7-form">
+                    <img class="img" src="{{localurl}}" alt="">
+                    <div class="color-gray">输入图片链接</div>
+                    <input type="text" class="form-control text-center" placeholder="图片链接" ng-model="netWorkurl">
+                    <div>
+                        <button class="btn btn-default" type="button" ng-click="fetchNetwork()">转化</button>
+                    </div>
+                </form>
+            </div>
+            <div class="material-pager text-right" ng-bind-html="pager" ng-show="index!=2"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="ok()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+    </div>
+</div>

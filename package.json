@@ -1,0 +1,24 @@
+{
+  "name": "weengine1.7.2",
+  "version": "1.0.0",
+  "description": "微擎",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "gulp"
+  },
+  "keywords": [
+    "微擎"
+  ],
+  "author": "lzh",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "del": "^3.0.0",
+    "gulp": "^4.0.0",
+    "gulp-angular-templatecache": "^2.2.6",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-uglify": "^3.0.1"
+  }
+}

@@ -1,0 +1,187 @@
+<style>
+    .avatar_wrap {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    .avatar_wrap img {
+        width: 100%;
+    }
+    .nickname_wrap {
+        line-height: 40px;
+        padding-left: 5px;
+    }
+</style>
+{if $op == 'display'}
+<div class="main">
+    <form action="" method="post">
+        <div class="panel panel-default">
+            <div class="table-responsive panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>昵称/头像</th>
+                            <th width="120">支付金额</th>
+                            <th width="80">状态</th>
+                            <th width="80">奖金</th>
+                            <th width="160">支付/打卡时间</th>
+                            <th width="50">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {if !empty($list)}
+                    {loop $list $li}
+                    <tr>
+                        <td>
+                            <div class="clearfix">
+                                <div class="pull-left avatar_wrap">
+                                    <img src="{php echo tomedia($li['member']['avatar'])}"/>
+                                </div>
+                                <div class="pull-left nickname_wrap">{$li['member']['nickname']}</div>
+                            </div>
+                        </td>
+                        <td>{$li['amount']}</td>
+                        <td>
+                            {if $li['status']==0}
+                            <span class="label label-default">待支付</span>
+                            {elseif $li['status']==1}
+                            <span class="label label-info">已支付</span>
+                            {elseif $li['status']==2}
+                            <span class="label label-primary">已打卡</span>
+                            {elseif $li['status']==3}
+                            <span class="label label-success">已发奖金</span>
+                            {/if}
+                        </td>
+                        <td>
+                            {if $li['reward']>0 && $li['status']==3}
+                            <span class="label label-success">已发</span>
+                            {else}
+                            <span class="label label-danger">未发</span>
+                            {/if}
+                        </td>
+                        <td>
+                            {if !empty($li['paytime'])}{$li['paytime']}{else}-{/if}<br>
+                            {if !empty($li['signtime'])}{$li['signtime']}{else}-{/if}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{php echo $this->createWebUrl('wxapp', array('act' => 'signlog', 'op' => 'post', 'id' => $li['id']))}" title="查看" class="btn btn-default btn-sm">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {/loop}
+                    {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                总共 <strong>{$total}</strong> 条
+            </div>
+        </div>
+        {$pager}
+    </form>
+</div>
+{else if $op == 'post'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">查看</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">用户</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        <div class="pull-left avatar_wrap">
+                            <img src="{$item['member']['avatar']}"/>
+                        </div>
+                        <div class="pull-left nickname_wrap">{$item['member']['nickname']}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">支付金额</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {$item['amount']}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">奖金</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {$item['reward']}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">状态</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {if $item['status']==0}
+                        <span class="label label-default">待支付</span>
+                        {elseif $item['status']==1}
+                        <span class="label label-info">已支付</span>
+                        {elseif $item['status']==2}
+                        <span class="label label-primary">已打卡</span>
+                        {elseif $item['status']==3}
+                        <span class="label label-success">已发奖金</span>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">支付订单号</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {$item['payno']}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">支付时间</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {if !empty($item['paytime'])}
+                        {php echo date('Y-m-d H:i:s', $item['paytime'])}
+                        {else}无
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">打卡时间</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {if !empty($item['signtime'])}
+                        {php echo date('Y-m-d H:i:s', $item['signtime'])}
+                        {else}无
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">添加时间</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {php echo date('Y-m-d H:i:s', $item['inserttime'])}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">更新时间</label>
+                <div class="col-sm-9">
+                    <div class="form-control-static">
+                        {if !empty($item['updatetime'])}
+                        {php echo date('Y-m-d H:i:s', $item['updatetime'])}
+                        {else}无
+                        {/if}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}

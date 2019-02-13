@@ -1,0 +1,203 @@
+<?php
+global $_GPC,$_W;
+$url = $_W['siteroot'].'app/index.php?i='.$_W['uniacid'].'&c=entry&do=mc_login&m=bsht_tbkdl&shopid='.$_GPC['shopid'];
+$time = time();
+$jumpurl = $url . '&time=' . $time;
+Header('HTTP/1.1 303 See Other');
+Header('Location:'.$jumpurl);
+?>
+
+{php define('MUI', true);}
+{template 'common/header'}
+<!--script type="text/javascript" src="../addons/bsht_tbk/res/js/layer.js"></script-->
+<script>
+	$(function(){
+		$(document).on('input propertychange', '.js-mobile-val', function(){
+			var mobile_value = $(this).val();
+			if (mobile_value.length == '11') {
+				$.post("{php echo url('auth/login/mobile_exist')}", {'mobile' : mobile_value}, function(data) {
+					data = $.parseJSON(data);
+					if (data.message.errno == '1') {
+						$('.js-check-mobile').addClass('send-code');
+					} else if (data.message.errno == '2'){
+						$('.js-check-mobile').removeClass('send-code');
+						util.toast('手机号不存在', '', 'error');
+						return;
+					}
+				});
+			} else {
+				$('.js-check-mobile').removeClass('send-code');
+			}
+		});
+		$(document).on('click', '.login-code', function() {
+			var username = $('#login-code input[name="username"]').val();
+			var password = $('#login-code input[name="password"]').val();
+			$.post(location.href, {'username' : username, 'password' : password, 'mode' : 'code'},function(data) {
+				data = $.parseJSON(data);
+				//alert(data.message);
+			    //return false;
+				if(data.type != 'success') {
+					util.toast(data.message, '', 'error');
+					//layer.msg('玩命提示中');
+					return false;
+				} else {
+					util.toast('登录成功');
+					location.reload();
+					return false;
+				}
+			})
+		})
+		$(document).on('click', '.send-code', function(){
+			var username = $('#login-code input[name="username"]').val();
+			option = {
+				'btnElement' : $('.send-code'),
+				'showElement' : $('.js-timer'),
+				'btnTips' : '<a class="send-code">重新获取验证码</a>',
+				'successCallback' : function(ret, message){
+					if (ret == '0') {
+						util.toast(message);
+						$('.js-sendcode').hide();
+						$('.js-codeverify').show();
+					} else {
+						util.toast(message);
+						$('.js-sendcode').show();
+						$('.js-codeverify').hide();
+						return;
+					}
+				}
+			};
+			util.sendCode(username, option);
+		});
+	});
+</script>
+<!--div class="mui-content mc-login">
+	<div class="avatar mui-text-center">
+		<img src="{if tomedia('headimg_'.$_W['acid'].'.jpg')}{php echo tomedia('headimg_'.$_W['acid'].'.jpg');}{else}resource/images/MicroEngine.ico{/if}" class="mui-img-circle"/>
+	</div>
+	{if $type == 'email'}
+	{if ($item == 'mobile' && $ltype !== 'code') || ($item == 'email') || ($item == 'random')}
+	<form action="{url 'auth/login/basic'}" method="post" enctype="multipart/form-data" class="js-ajax-form">
+	<div class="mui-control-content mui-active" id="login-basic">
+		<div class="mui-input-group">
+			<div class="mui-input-row">
+				<label class="mui-label-icon"><i class="fa fa-user"></i></label>
+				<input name ="username" type="text" placeholder="{if $item == 'mobile'}手机号{elseif $item == 'email'}邮箱{else}手机号/邮箱{/if}{if !empty($uc_setting) && $uc_setting['status'] == '1'}/{$uc_setting['title']}账号{/if}"/>
+			</div>
+			<div class="mui-input-row mui-help">
+				<label class="mui-label-icon"><i class="fa fa-lock"></i></label>
+				<input name="password" type="password" placeholder="密码"/>
+			</div>
+		</div>
+	</div>
+	<div class="mui-content-padded">
+		<input type="hidden" name="mode" value="basic">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+		<button class="mui-btn mui-btn-success mui-btn-block login-basic" type="submit" name="submit" value="提交">登录</button>
+	</div>
+	</form>
+	{/if}
+	{/if}
+	{if $type == 'mobile' || ($item == 'mobile' && $ltype == 'code')}
+	<div class="mui-active mc-login-code" id="login-code">
+		<div class="js-sendcode">
+			<div class="mui-content-padded mui-text-muted">请输入手机号,以收取验证码</div>
+			<div class="mui-input-group mui-mt15">
+				<div class="mui-input-row">
+					<label class="mui-label-icon"><i class="fa fa-user"></i></label>
+					<input name="username" class="js-mobile-val" type="text" placeholder="手机号"/>
+				</div>
+			</div>
+			<div class="mui-content-padded mui-text-center">
+				<button class="mui-btn mui-btn-success mui-btn-block js-check-mobile" uniacid="{$_W['uniacid']}">下一步</button>
+			</div>
+		</div>
+		<div style="display:none;" class="js-codeverify">
+			<div class="mui-content-padded mui-text-muted">您的手机号<span class="mui-text-success" ng-bind="ret.code.username"></span>会收到一条含有6位数字验证码的短信息</div>
+			<div class="mui-input-group mui-mt15">
+				<div class="mui-input-row">
+					<label class="mui-label-icon"><i class="fa fa-key"></i></label>
+					<input name="password" type="text" placeholder="验证码"/>
+				</div>
+			</div>
+			<div class="mui-content-padded mui-text-center">
+				<button class="mui-btn mui-btn-success mui-btn-block login-code" type="submit">确认</button>
+				<div class="mui-mt15 mui-text-center">
+					<span class="mui-text-muted js-timer">
+
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	{/if}
+	<div class="mui-content-padded">
+		<div class="mui-text-center mui-mt15">
+			{if $type == 'email'}
+			{if ($item == 'mobile' && ($ltype =='hybird')) || ($item == 'random' && ($ltype !== 'password'))}
+			<span class="mui-ml5 mui-mr5 mui-text-muted">|</span>
+
+			{/if}
+			{else}
+			<span class="mui-ml5 mui-mr5 mui-text-muted">|</span>
+			<a href="{url 'auth/login' array('forward' => $_GPC['forward'], 'type' => 'email')}#wechat_redirect">邮箱登录
+			</a>
+			{/if}
+		</div>
+	</div>
+</div-->
+<style>
+html{font-size:41.4px!important;}
+body{width:100%;max-width:640px;}
+.mui-toast-container{position: fixed;margin:auto;left:0px;right:0px;top:30%;}
+.logo {
+    width: 2.13333333rem;
+    height: 2.13333333rem;
+    background: url("{if tomedia('headimg_'.$_W['acid'].'.jpg')}{php echo tomedia('headimg_'.$_W['acid'].'.jpg');}{else}../app/themes/style_bsht4tbk/images/logo.png{/if}") no-repeat;
+    background-size: contain;
+    margin: 1.25333333rem auto 0;
+	border-radius:2.13333333rem;
+	border:0px solid #ff5000;
+}
+</style>
+<link rel="stylesheet" href="../app/themes/style_bsht4tbk/css/tb2017.css">
+<div class="logo tb-logo"></div>
+{if $type == 'email'}
+{if ($item == 'mobile' && $ltype !== 'code') || ($item == 'email') || ($item == 'random')}
+<form action="{url 'auth/login/basic'}" method="post" enctype="multipart/form-data" class="js-ajax-form mlogin">
+
+    <div class="am-list" id="login-code" style="width:85%;max-width:580px">
+        <div class="am-list-item">
+            <div class="am-list-control">
+                <input name ="username"  class="am-input-required" type="text" placeholder="{if $item == 'mobile'}手机号{elseif $item == 'email'}请输入您的邮箱{else}手机号/邮箱{/if}{if !empty($uc_setting) && $uc_setting['status'] == '1'}/{$uc_setting['title']}账号{/if}" style="border: 0px;"/>
+            </div>
+            <div class="am-list-action"><i class="am-icon-clear"></i></div>
+        </div>
+        <div class="am-list-item">
+            <div class="am-list-control">
+                <input name="password" class="am-input-required am-input-required-password" type="password" placeholder="请输入您的密码" style="border: 0px;"/>
+            </div>
+            <div class="am-list-action am-list-action-password"><i class="am-icon-clear"></i></div>
+            <div class="pwd-show iconfont" id="show-pwd"></div>
+        </div>
+    </div>
+
+
+    
+    <div class="other-link">
+                    <div class="am-field am-footer">
+                <!--a href="" class="f-left">免费注册</a>
+                <a id="forget" class="f-right">忘记密码</a-->
+            </div>
+    </div>
+    <div class="am-field am-fieldBottom" style="width:85%;max-width:580px">
+	    <input type="hidden" name="mode" value="basic">
+		<input type="hidden" name="token" value="{$_W['token']}" />
+        <button type="submit"  name="submit" class="am-button am-button-submit login-code" id="btn-submit" style="height:1.4rem">登 录</button>
+    </div>
+    <!--div class="am-field" style="width:85%;max-width:580px">
+            <a href="{$_W['siteroot']}app/index.php?i={$_W['uniacid']}&c=entry&do=index&m=bsht_tbk&shopid={$_GPC['shopid']}" class="am-button btn-change" id="btn-change">返回主站</a>
+    </div-->
+</form>
+{/if}
+{/if}
+{template 'common/footer'}

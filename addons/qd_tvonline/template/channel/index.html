@@ -1,0 +1,47 @@
+{template 'common/header'}
+<style>
+    .table tbody tr td {
+        vertical-align: middle;
+    }
+</style>
+<div id="app">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <a class="btn btn-info btn-sm" href="{php echo $this->createWebUrl('channel');}"><i
+                    class="fa fa-refresh"></i></a>
+            <a class="btn btn-primary btn-sm" href="{php echo $this->createWebUrl('channel')}&op=add">添加频道</a>
+            <a class="btn btn-danger btn-sm pull-right" href="{php echo $this->createWebUrl('channel');}&op=del_all">清空全部数据</i></a>
+        </div>
+        <!-- Table -->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>排序</th>
+                <th>频道名称</th>
+                <th>频道URL</th>
+                <th>修改时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {loop $result['rows'] $index $item}
+            <tr>
+                <td>{$item['id']}</td>
+                <td>{$item['order']}</td>
+                <td>{$item['name']}</td>
+                <td>{$item['url']}</td>
+                <td>{php echo date('Y-m-d H:i:s',$item['created_at'])}</td>
+                <td>
+                    <a class="btn btn-info btn-sm" href="{php echo $this->createWebUrl('channel');}&op=edit&id={$item[id]}">编辑</a>
+                    <a class="btn btn-danger btn-sm" href="{php echo $this->createWebUrl('channel');}&op=del&id={$item[id]}">删除</a>
+                </td>
+            </tr>
+            {/loop}
+            </tbody>
+        </table>
+    </div>
+    {php echo pagination($result['total'], $result['current'], 10);}
+</div>
+{template 'common/footer'}

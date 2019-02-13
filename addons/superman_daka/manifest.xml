@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6,0.52">
+	<application setting="true" >
+		<name><![CDATA[【超人】早起打卡]]></name>
+		<identifie><![CDATA[superman_daka]]></identifie>
+		<version><![CDATA[1.0.0]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[每天支付一元参与早起打卡赚奖金]]></ability>
+		<description><![CDATA[每天支付一元参与早起打卡赚奖金]]></description>
+		<author><![CDATA[超人]]></author>
+		<url><![CDATA[http://s.we7.cc/index.php?c=home&a=author&do=index&uid=59968]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="早起打卡" do="wxapp" state="" direct="" icon="" />
+		</menu>
+		<page>
+			<entry title="首页" do="/superman_daka/pages/index/index" state="" direct="" icon="" />
+			<entry title="我的" do="/superman_daka/pages/my/index" state="" direct="" icon="" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[install.php]]></install>
+	<uninstall><![CDATA[uninstall.php]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

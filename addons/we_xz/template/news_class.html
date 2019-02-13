@@ -1,0 +1,40 @@
+{template 'common/header'}
+<div id="js-wesite-article-display">
+    <div class="pull-right">
+        <a href="{php echo $this->createWebUrl('news_class_add')}" class="btn btn-primary we7-padding-horizontal">+文章分类</a>
+    </div>
+    <form action="{php echo $this->createWebUrl('news_class')}" method="post" class="form-inline" role="form">
+        <input type="hidden" name="eid" value="{$_GPC['eid']}"/>
+        <div class="input-group we7-padding-left col-sm-5">
+            <input class="form-control" name="title" id="" type="text" value="{$keyword}" placeholder="请输入内容">
+            <span class="input-group-btn"><button class="btn btn-default"><i class="fa fa-search"></i></button></span>
+        </div>
+    </form>
+    <table class="table we7-table table-hover article-list vertical-middle">
+        <col/>
+        <col/>
+        <col/>
+        <tr>
+            <th></th>
+            <th class="text-left">文章分类</th>
+            <th class="text-right">操作</th>
+        </tr>
+        {loop $lists $list}
+        <tr>
+            <td></td>
+            <td class="text-left">{$list['title']}</td>
+            <td>
+                <div class="link-group">
+                    <a href="{php echo $this->createWebUrl('news_class_add', array('id' => $list['id']))}">编辑</a>
+                    <a href="{php echo $this->createWebUrl('news_class_delete', array('id' => $list['id']))}"
+                       class="del">删除</a>
+                </div>
+            </td>
+        </tr>
+        {/loop}
+    </table>
+    <div class="text-right we7-margin-top">
+        {$pager}
+    </div>
+</div>
+{template 'common/footer'}

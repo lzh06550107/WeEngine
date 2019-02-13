@@ -1,0 +1,298 @@
+{if $op == 'display'}
+<div class="alert alert-info">
+    需要发放奖金时，请点击每条数据右侧的编辑按钮，如当天奖金数据不存在时，请点击按钮 <a href="{php echo $this->createWebUrl('wxapp', array('act' => 'reward', 'op' => 'init'))}" class="btn btn-sm btn-info">初始化数据</a>
+</div>
+<div class="main">
+    <form action="" method="post">
+        <div class="panel panel-default">
+            <div class="table-responsive panel-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>总奖金</th>
+                            <th>幸运奖金</th>
+                            <th>每人奖金</th>
+                            <th width="50">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {if !empty($list)}
+                    {loop $list $li}
+                    <tr>
+                        <td>{$li['signdate']}</td>
+                        <td>{$li['total']}</td>
+                        <td>{$li['lucky']}</td>
+                        <td>{$li['reward']}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{php echo $this->createWebUrl('wxapp', array('act' => 'reward', 'op' => 'post', 'id' => $li['id']))}" title="编辑" class="btn btn-default btn-sm">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {/loop}
+                    {/if}
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                总共 <strong>{$total}</strong> 条
+            </div>
+        </div>
+        {$pager}
+    </form>
+</div>
+{else if $op == 'init'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form we7-form">
+        <div class="panel panel-default">
+            <div class="panel-heading">初始化数据</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">日期</label>
+                    <div class="col-sm-9">
+                        {php echo _tpl_form_field_date('signdate')}
+                        <span class="help-block">只能选择没有数据的日期，否则会初始化失败</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <button type="submit" class="btn btn-primary" name="submit" value="提交">提交</button>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+{else if $op == 'post'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form we7-form">
+        <div class="panel panel-default">
+            <div class="panel-heading">编辑</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">日期</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            {$reward['signdate']}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">总奖金</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="total" value="{$reward['total']}" placeholder="0.00">
+                            <span class="input-group-addon">元</span>
+                        </div>
+                        <span class="help-block">参与打卡支付的总奖金，点击刷新按钮自动获取最新数据，不建议手动修改</span>
+                        <span class="help-block">
+                            <button type="button" class="btn btn-success btn-sm getTotal" data-signdate="{$reward['signdate']}">
+                                <i class="fa fa-refresh"></i> 刷新
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">运气奖金</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="lucky" value="{$reward['lucky']}" placeholder="0.00">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">幸运奖UID</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="lucky_uid" value="{$reward['lucky_uid']}" placeholder="0">
+                        <span class="help-block">可控制幸运奖发给指定用户，该用户必须要参与打卡，否则无法发奖</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right"><span class="sup-star">*</span> 每人奖金</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="reward" value="{$reward['reward']}" placeholder="0.00">
+                        <span class="help-block">总参与人数：{$joined_total}</span>
+                        <span class="help-block">成功人数：{$succeed_total}</span>
+                        <span class="help-block">失败人数：{$failed_total}</span>
+                        <span class="help-block">
+                            计算奖金公式 = （总奖金 - 运气奖金）/ 成功人数
+                        </span>
+                        <span class="help-block">
+                            <button type="button" class="btn btn-info btnCalc" data-succeed="{$succeed_total}">
+                                <i class="fa fa-calculator"></i> 计算奖金
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                {if !empty($reward['inserttime'])}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">添加时间</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            {php echo date('Y-m-d H:i:s', $reward['inserttime'])}
+                        </p>
+                    </div>
+                </div>
+                {/if}
+                {if !empty($reward['updatetime'])}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">更新时间</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            {php echo date('Y-m-d H:i:s', $reward['updatetime'])}
+                        </p>
+                    </div>
+                </div>
+                {/if}
+                {if !empty($reward['operator'])}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">操作人</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            {$reward['operator']}
+                        </p>
+                    </div>
+                </div>
+                {/if}
+                <hr>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">发放总奖金</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            &yen;{$reward_total}
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label text-right">发放总人数</label>
+                    <div class="col-sm-9">
+                        <p class="form-control-static">
+                            {$member_total}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary btnSubmit" data-optype="save" value="提交" style="margin-right: 15px">保存</button>
+            <button type="button" class="btn btn-danger btnSubmit" data-optype="save_send" value="提交">保存后，开始发奖金</button>
+            <input type="hidden" name="token" value="{$_W['token']}" />
+            <input type="hidden" name="optype" value="save">
+        </div>
+        <div class="alert alert-warning" style="margin-top: 10px;">
+            注意：发奖金调用微信支付企业付款接口，请配置小程序支付参数=》退款配置，上传证书文件！
+        </div>
+        <div class="alert alert-danger" style="margin-top: 10px;">
+            请保持微信支付 <strong>运营账户</strong> 有充足的资金用以支付奖金，否则无法发放奖金！
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    require(['jquery', 'util'], function($, util){
+        $('.getTotal').click(function () {
+            var signdate = $(this).data('signdate');
+            $.ajax({
+                url: "{php echo $this->createWebUrl('wxapp', array('act' => 'reward', 'op' => 'get_total'))}",
+                type: 'post',
+                data: 'signdate='+signdate,
+                dataType: 'json',
+                beforeSend: function () {
+                    $.showLoading();
+                },
+                complete: function () {
+                    $.hideLoading();
+                },
+                success: function (resp) {
+                    $('input[name=total]').val(resp.total);
+                },
+            });
+        });
+        $('.btnCalc').click(function () {
+            var total = parseFloat($('input[name=total]').val());
+            var lucky = parseFloat($('input[name=lucky]').val());
+            var succeed = parseInt($(this).data('succeed'));
+            console.log('total='+total+', lucky='+lucky+', succeed='+succeed);
+            if (total <= 0) {
+                util.message('总奖金非法！', '', 'error');
+                return;
+            }
+            if (lucky > total) {
+                util.message('运气奖金大于总奖金！', '', 'error');
+                return;
+            }
+            var money = total - lucky;
+            if (money <= 0 || succeed <= 0) {
+                $('input[name=reward]').val('0.00');
+            } else {
+                money = money / succeed;
+                console.log('money1='+money);
+                money = money.toFixed(3);
+                console.log('money2='+money);
+                money = money.substring(0, money.lastIndexOf('.')+3);
+                console.log('money3='+money);
+                $('input[name=reward]').val(money);
+            }
+        });
+        $('.btnSubmit').click(function () {
+            var optype = $(this).data('optype');
+            $('input[name=optype]').val(optype);
+            $('form').submit();
+        });
+        $('form').submit(function () {
+            var total = parseFloat($('input[name=total]').val());
+            var lucky = parseFloat($('input[name=lucky]').val());
+            var reward = parseFloat($('input[name=reward]').val());
+            if (reward <= 0) {
+                util.message('未填写每人奖金！', '', 'error');
+                return false;
+            }
+            if (lucky > total) {
+                util.message('运气奖金不能大于总奖金！', '', 'error');
+                return false;
+            }
+            if (reward > total) {
+                util.message('每人奖金不能大于总奖金！', '', 'error');
+                return false;
+            }
+            if (lucky > 0 && reward > lucky) {
+                util.message('每人奖金不能大于运气奖金！', '', 'error');
+                return false;
+            }
+            return true;
+        });
+    });
+</script>
+{else if $op == 'send'}
+<style>
+    .progress {
+        width: 230px;
+        margin: 0 auto;
+    }
+    .redirect_url {
+        font-size: 12px;
+        margin: 10px 0;
+        display: inline-block;
+    }
+</style>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-body text-center">
+            <h4>操作中……</h4>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="{$progress}" aria-valuemin="0" aria-valuemax="100" style="width: {$progress}%; min-width: 40px;">
+                    <span>{$current}/{$count}</span>
+                </div>
+            </div>
+            <a style="color: #428bca" href="{$redirect_url}" class="redirect_url">如果您的浏览器没有自动跳转，请点击这里</a>
+        </div>
+    </div>
+</div>
+<script>
+    if ('{$redirect_url}' != '') {
+        setTimeout(function(){
+            window.location.href = '{$redirect_url}';
+        }, 200);
+    }
+</script>
+{/if}

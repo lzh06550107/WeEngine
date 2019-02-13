@@ -1,0 +1,36 @@
+<style>
+    .content_wrap {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f5f5f5;
+        padding: 8px;
+        word-break: break-all;
+    }
+    .content_wrap hr {
+        margin: 5px 0;
+    }
+    .content_wrap .red {
+        color: #f00;
+    }
+    .content_wrap .blue {
+        color: #00f;
+    }
+</style>
+<div class="alert alert-info">
+    以下为奖金自动结算日志，可按日期查看，每天生成一个日志文件。
+</div>
+<div class="main">
+    <form action="" method="post" class="form-horizontal form we7-form">
+        <div class="form-group">
+            <div class="col-sm-4">
+                {php echo _tpl_form_field_date('logdate', $curdate)}
+            </div>
+            <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary" name="submit" value="查看">查看</button>
+            </div>
+        </div>
+    </form>
+    <div class="content_wrap">
+        {$content}
+    </div>
+</div>

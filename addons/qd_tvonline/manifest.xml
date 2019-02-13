@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.52,0.6">
+	<application setting="false" >
+		<name><![CDATA[轻点TV]]></name>
+		<identifie><![CDATA[qd_tvonline]]></identifie>
+		<version><![CDATA[1.0.0]]></version>
+		<type><![CDATA[services]]></type>
+		<ability><![CDATA[手机小程序电视直播]]></ability>
+		<description><![CDATA[手机小程序电视直播]]></description>
+		<author><![CDATA[Mob118100428654]]></author>
+		<url><![CDATA[]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports>
+			<item type="wxapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="小程序设置" do="config" state="" direct="" icon="" />
+			<entry title="频道管理" do="channel" state="" direct="" icon="" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[CREATE TABLE `qd_tvonline_channel` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `app_id` int(10) NOT NULL DEFAULT '0' COMMENT '小程序ID',
+  `name` varchar(50) NOT NULL COMMENT '频道名称',
+  `url` varchar(255) NOT NULL COMMENT '频道地址',
+  `order` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `created_at` int(11) unsigned NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轻点TV-频道';
+
+CREATE TABLE `qd_tvonline_config` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `app_id` int(10) NOT NULL DEFAULT '0' COMMENT '小程序ID',
+  `title` varchar(50) NOT NULL COMMENT '小程序标题',
+  `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '创建时间',
+  `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='轻点TV-设置';
+]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

@@ -1,0 +1,59 @@
+{php define(MUI, true);}
+{template 'common/header'}
+    <style>
+	.mui-btn-green, .mui-btn-positive, .mui-btn-success {
+    background-color: #23BD81;
+    border: 1px solid #23BD81;
+    }
+    .mui-message .mui-msg-error {
+    background: transparent url('../addons/bsht_tbk/res/images/ms-error.png') no-repeat center center;
+    }
+	.mui-message .mui-msg-success {
+    background: transparent url('../addons/bsht_tbk/res/images/ms-success.png') no-repeat center center;
+    }
+    .mui-content-padded{
+    background:#fff;
+    }
+	.mui-btn{
+	width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+	}
+	.mui-message h4.title {
+	margin-top: 20px;
+	}
+	.mui-message .mui-message-icon {
+    margin-top: 25%;
+    text-align: center;
+    }
+	</style>
+	{if strexists($msg, 'SQL Error:')}
+	<div class="mui-content-padded">
+		<div class="mui-message">
+			<div class="mui-message-icon">
+				<span class="mui-msg-error"></span>
+			</div>
+			<h4 class="title">系统错误</h4>
+			<div class="mui-desc" style="color:#929292;">请及时联系管理员</div>
+			<div class="mui-desc" style="color:#929292; margin-top:10px; text-align:left;">{$msg}</div>
+			<div class="mui-button-area">
+				<a href="javascript:;" onclick="history.go(-1);" class="mui-btn mui-btn-success mui-btn-block">确定</a>
+			</div>
+		</div>
+	</div>
+	{else}
+	<script type="text/javascript">
+	
+		util.message('{$msg}', '{$redirect}', '{$type}');
+	
+	</script>
+	<script>
+	$(function(){
+	setTimeout('$(".mui-btn").click();',2000);
+	var t = setInterval(function(){
+	$('.mui-content').css('background','#fff');
+	},40);
+	});
+	</script>
+	{/if}
+{template 'common/footer'}

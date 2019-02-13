@@ -1,0 +1,59 @@
+{template 'common/header-base'}
+<div class="container" ng-controller="myjoinController">
+  <div class="row">
+    <div class="col">
+      <div class="box">
+        <div class="box-content">
+          <div class="kanjia-joinlist" infinite-scroll="myjoinreddit.nextPage()" infinite-scroll-disabled="myjoinreddit.busy" infinite-scroll-distance="0">
+            <a class="item clearfix" ng-repeat="item in myjoinreddit.items" href='{{item.href}}'>
+              <div class="image">
+                <img ng-src="{{item.kanjia.cover}}" alt=" "/>
+              </div>
+              <div class="info clearfix">
+                <span class="title" ng-bind="item.kanjia.title"></span>
+                <span class="time text-right" ng-bind="item.createtime"></span>
+              </div>
+            </a>
+          </div>
+          <div class="loading text-center" ng-show="myjoinreddit.load">
+            <img src="{MODULE_URL}images/loading.gif"/>
+            正在加载中…
+          </div>
+          <div class="last text-center" ng-show="myjoinreddit.last">没有更多内容了</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--底部导航-->
+<div class="footer-fixed">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <ul class="footer-nav">
+          <li class="item {if $_GPC['do'] == 'list'}active{/if}">
+            <a href="{php echo $this->createMobileUrl('list')}">
+              <div class="font icon-home"></div>
+              <div class="text">首页</div>
+            </a>
+          </li>
+          <li class="item {if $_GPC['do'] == 'myjoin'}active{/if}">
+            <a href="{php echo $this->createMobileUrl('myjoin')}">
+              <div class="font icon-user"></div>
+              <div class="text">我的</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<style media="screen">
+body{
+  padding-bottom: 4.4rem;
+}
+</style>
+<script type="text/javascript">
+var KANJIA_MYJOIN_URL = "{php echo $this->createMobileUrl('myjoinajax')}";
+</script>
+{template 'common/footer-base'}

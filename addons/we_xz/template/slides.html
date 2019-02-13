@@ -1,0 +1,32 @@
+{template 'common/header'}
+<div id="js-wesite-article-display">
+    <div class="pull-right">
+        <a href="{php echo $this->createWebUrl('slide_add')}" class="btn btn-primary we7-padding-horizontal">+首页轮播图</a>
+    </div>
+    <table class="table we7-table table-hover article-list vertical-middle">
+        <col/>
+        <col/>
+        <col/>
+        <tr>
+            <th class="text-left" style="width: 100px">标题</th>
+            <th class="" style="text-align: center;">图片</th>
+            <th class="text-right" style="width: 100px;">操作</th>
+        </tr>
+        {loop $list $vo}
+        <tr>
+            <td class="text-left">{$vo['title']}</td>
+            <td class="text-left" style="height: 100px;"><img style="width: 50%;height: 80px;display: block;margin: auto;" src="{$_W['attachurl']}{$vo['img']}" alt="{$vo['title']}"/></td>
+            <td>
+                <div class="link-group">
+                    <a href="{php echo $this->createWebUrl('slide_add', array('id' => $vo['id']))}">编辑</a>
+                    <a href="{php echo $this->createWebUrl('slide_delete', array('id' => $vo['id']))}"
+                       class="del">删除</a>
+                </div>
+            </td>
+        </tr>
+        {/loop}
+    </table>
+    <div class="text-right we7-margin-top">
+    </div>
+</div>
+{template 'common/footer'}

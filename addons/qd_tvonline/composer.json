@@ -1,0 +1,14 @@
+{
+  "require": {
+    "topthink/think-orm": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Cores\\": "cores/",
+      "Models\\": "models/"
+    },
+    "files": [
+      "config/db.php"
+    ]
+  }
+}

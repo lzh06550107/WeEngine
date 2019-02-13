@@ -1,0 +1,12 @@
+<label for="we7resourceFile" class="btn btn-primary">{{$ctrl.name}}</label>
+<input type="file" id="we7resourceFile" multiple name="file" accept="{{$ctrl.accept}}" style="display: none">
+<div class="progress-uploader row" ng-repeat="(key, value) in $ctrl.files" ng-show="uploading" style="z-index: 9900">
+    <div class="col-sm-3 text-over">{{value.name}}</div>
+    <div class="col-sm-2 color-gray">({{value.filesize}}KB)</div>
+    <div class="col-sm-7">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                 style="width: {{value.progress}}%"></div>
+        </div>
+    </div>
+</div>

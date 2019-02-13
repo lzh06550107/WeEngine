@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest versionCode="0.6">
+	<identifie><![CDATA[style_bsht4tbk]]></identifie>
+    <version><![CDATA[10.10.10]]></version>
+	<title><![CDATA[牛贝-淘宝客辅助认证]]></title>
+	<type><![CDATA[often]]></type>
+    <description><![CDATA[牛贝淘宝客配套模版，请勿单独使用]]></description>
+    <author><![CDATA[牛贝网络]]></author>
+    <url><![CDATA[http://s.we7.cc]]></url>
+	<sections><![CDATA[0]]></sections>
+	<settings>
+	</settings>
+</manifest>

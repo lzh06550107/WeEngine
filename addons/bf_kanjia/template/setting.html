@@ -1,0 +1,55 @@
+{template 'common/header'}
+<div class="container-fluid">
+  <form action="" class="form-horizontal form" method="post">
+    <div class="panel panel-default">
+      <div class="panel-heading">核销设置</div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">核销密码</label>
+          <div class="col-sm-4 col-md-5">
+            <textarea name="qrcode_password" class="form-control">{$settings['qrcode_password']}</textarea>
+            <div class="help-block">多个核销密码请用英文的“,”隔开，可为不同的商家提供不同的核销密码。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">分享设置<span class="text-danger">&nbsp;&nbsp;提示：此次设置的分享用于砍价列表、我的砍价，这两个页面。</span></div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享标题</label>
+          <div class="col-sm-4 col-md-5">
+            <input type="text" name="share_title" class="form-control" value="{$settings['share_title']}"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享链接</label>
+          <div class="col-sm-4 col-md-5">
+            <input type="text" name="share_link" class="form-control" value="{$settings['share_link']}"/>
+            <div class="help-block">一般情况下建议不要填写，由系统控制分享链接。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享图片</label>
+          <div class="col-sm-4 col-md-5">
+            {php echo tpl_form_field_image('share_imgUrl', $settings['share_imgUrl']);}
+            <div class="text-danger">建议上传100像素*100像素的图片，显示效果更佳。</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 col-md-2 control-label">分享描述</label>
+          <div class="col-sm-4 col-md-5">
+            <textarea name="share_desc" class="form-control" rows="4">{$settings['share_desc']}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-md-ofset-2 col-sm-4 col-md-5">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+            <button class="btn btn-primary" type="submit" name="submit" value="1">提交</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{template 'common/footer'}

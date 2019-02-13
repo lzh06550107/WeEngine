@@ -1,0 +1,71 @@
+﻿{php include $this->template('header-enterprise')}
+<head>
+    <title>产品详情|{$setting['keywords']}|{$setting['profile']}</title>
+</head>
+{php include $this->template('banner-enterprise')}
+<div class="main_box main_box_style1">
+    <div class="main_box_inner">
+        <div class="main_box_inner_left">
+            <div id="nav_131" class="nav_box nav_box_menu">
+                <div class="nav_title">
+                    <span class="nav_sign">产品中心</span>
+                    <span class="nav_more"></span>
+                </div>
+
+                <div id="nav_menu_131" class="nav_menu">
+                    <ul id="rootul_131">
+                        {loop $arr $key $val}
+                        <li id="sl755 current"><a class="sla755">{$val['title']}</a>
+                            <ul>
+                                {loop $val['next'] $k $v}
+                                <li id="sl802"><span></span><a href="/product/hwyp" class="sla802">{$v['title']}</a></li>
+                                {/loop}
+                                <!--<li id="sl802"><span></span><a href="/product/ChuangTaiPeng" class="sla802">窗台棚</a></li>-->
+                                <!--<li id="sl802"><span></span><a href="/product/lhjcp" class="sla802">铝合金车棚</a></li>-->
+                            </ul>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main_box_inner_right">
+            <div class="current_location current_location_755">
+                <ul>
+                    <li class="current_location_1">当前位置：
+                        <a href="{php echo url('entry/webapp/Fengmian', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">首页</a>
+                        >
+                        <a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">产品中心</a>
+                        >
+                        <a>露天蓬</a>
+                    </li>
+                    <li class="current_location_2">产品中心</li>
+                </ul>
+            </div>
+            <div class="sublanmu_box sublanmu_box_755">
+                <div class="sublanmu_content sublanmu_content_product">
+                    <!-- 商品详情页 -->
+                    <div class="news-xqy">
+                        <h5>{$list['title']}介绍</h5>
+                        <h6>发布时间：{php echo date('Y-m-d H:i:s',$list['create_time'])}</h6>
+                        <div class="news_nr">
+                            <p style="text-align: center; -ms-text-justify: inter-ideograph;"><span
+                                    style="color: rgb(255, 0, 0); font-family: 宋体; font-size: 20px;"><span
+                                    style="font-family: 宋体;"><span style="font-family: 宋体; font-size: 16px;"><span
+                                    style="font-family: 宋体; font-size: 16px;">&nbsp;
+                               <img width="643" height="505" title="{$list['title']}" alt="{$list['title']}.jpg"
+                                    src="{$_W['attachurl']}{$list['img_url']}"/></span></span></span></span></p>
+                                {$list['description']}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear main_box_inner_bottom"></div>
+</div>
+<!--底部-->
+{php include $this->template('footer-enterprise')}
+</div>
+</body>
+</html>

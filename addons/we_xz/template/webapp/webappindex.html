@@ -1,0 +1,222 @@
+﻿{php include $this->template('header-enterprise')}
+<head>
+    <title>{$setting['keywords']}|{$setting['profile']}</title>
+</head>
+{php include $this->template('banner-enterprise')}
+<!--产品与服务-->
+<!-- 欧式雨棚三个分类 -->
+<div class="main_box main_box_style">
+    <div class="main_box_inner">
+        {loop $products $key $lists}
+        <div id="module_224" class="module_box">
+            <div class="module_box_inner">
+                <div class="module_title">
+                            <span class="module_sign">
+                                <span class="s1">{$key}</span>
+                                <span class="s2"><p><span
+                                        style=";font-family:宋体;font-size:16px">{$lists['abstract']}</span></p><p><span
+                                        style=";font-family:宋体;font-size:16px"></span></p></span>
+                            </span>
+                    <span class="module_more"></span>
+                </div>
+
+                <div id="module_content_224" class="module_content module_content_introduct">
+                    <div class="sy_chanpin">
+                        <div class="sy_fangan">
+                            <ul class="chanpin_pic">
+                                {loop $lists['data'] $k $list}
+                                <li class="col-md-4 cp_li">
+                                    <a href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$list['id']))}"
+                                       class="pic">
+                                        <img src="{$_W['attachurl']}{$list['img_url']}" style="height:208px;"/></a>
+                                    <a href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$list['id']))}"
+                                       class="tit">{$list['title']}</a>
+                                    <span class="coms"><p>{$list['description']}</p></span>
+                                    <a href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$list['id']))}"
+                                       class="more">查看详情</a>
+                                </li>
+                                {/loop}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="module_footer"><span class="l"></span><span class="r"></span></div>
+                </div>
+            </div>
+            {/loop}
+            <!--户外遮阳棚-->
+            <div id="module_225" class="module_box">
+                <div class="module_box_inner">
+                    <div id="module_content_225" class="module_content module_content_introduct">
+                        <div class="sy_ruanjian"
+                             style="background:url({$_W['attachurl']}{$setting['background']}) no-repeat center center;">
+                            <div class="sy_rj_com">
+                                <div class="sy_rj_cfr">
+                                    {loop $products1 $key $val}s
+                                    <div class="cfr_tit">{$key}</div>
+                                    <div class="cfr_jj">{$val['abstract']}</div>
+                                    <div class="cfr_com">
+                                        <ul class="tupianzssan">
+                                            {loop $val['data'] $k $vo}
+                                            <li class="col-xs-6 col-xy-5 tp_li">
+                                                <a href="./product.html" class="li_pic">
+                                                    <img src="{$_W['attachurl']}{$vo['img_url']}" title="{$vo['title']}"
+                                                         alt="电动智能天幕篷" style="height:184px;"/>
+                                                    <span class="pic_s"></span>
+                                                </a>
+                                            </li>
+                                            {/loop}
+                                        </ul>
+                                    </div>
+                                    {/loop}
+                                    <a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}"
+                                       class="cfr_more">查看全部</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module_footer"><span class="l"></span><span class="r"></span></div>
+                </div>
+            </div>
+
+            <!--系统阳光房-->
+            <div id="module_227" class="module_box">
+                <div class="module_box_inner">
+                    {loop $products2 $key $val}
+                    <div class="module_title">
+                    <span class="module_sign">
+                        <span class="s1">{$key}</span>
+                        <span class="s2"><p><span
+                                style="font-family: 宋体;color: rgb(51, 51, 51);letter-spacing: 0;font-size: 16px;background: rgb(255, 255, 255)"><span
+                                style="font-family:宋体">{$val['abstract']}</span></span></p></span>
+                    </span>
+                        <span class="module_more"></span>
+                    </div>
+
+                    <div id="module_content_227" class="module_content module_content_introduct">
+                        <div class="sy_fangan">
+                            <ul class="chanpin_pic">
+                                {loop $val['data'] $k $v}
+                                <li class="col-md-4 cp_li">
+                                    <a href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$v['id']))}"
+                                       class="pic"><img src="{$_W['attachurl']}{$v['img_url']}"
+                                                        title="{$v['title']}" alt="系统阳光房介绍"></a>
+                                    <a href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$vo['id']))}"
+                                       class="tit">{$v['title']}</a>
+                                    <span class="coms">{$v['description']}</span>
+                                    <a href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$vo['id']))}"
+                                       class="more">查看详情</a>
+                                </li>
+                                {/loop}
+                            </ul>
+                        </div>
+                    </div>
+                    {/loop}
+                    <div class="module_footer"><span class="l"></span><span class="r"></span></div>
+                </div>
+            </div>
+
+            <!--户外铝艺-->
+            <div id="module_228" class="module_box">
+                <div class="module_box_inner">
+                    {loop $products3 $key $val}
+                    <div class="module_title">
+                    <span class="module_sign">
+                        <span class="s1">{$key}</span>
+                        <span class="s2"><p><span
+                                style=";font-family:宋体;font-size:16px">{$val['abstract']}</span></p></span>
+                    </span>
+                        <span class="module_more"></span>
+                    </div>
+
+                    <div id="module_content_228" class="module_content module_content_introduct">
+                        <div class="sy_chanpinlb">
+                            <div class="sy_cpcom">
+                            <span class="s1">
+                                <ul class="tpzs_box">
+                                    {loop $val['data'] $k $v}
+                                    <li class="animates4 col-md-3 col-sm-6">
+                                        <a class="pic"
+                                           href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$v['id']))}"><img
+                                                src="{$_W['attachurl']}{$v['img_url']}" title="{$v['title']}"
+                                                alt=""/></a>
+                                        <a class="tpzs_title"
+                                           href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$v['id']))}">{$v['title']}</a>
+                                    </li>
+                                       {/loop}
+                                </ul>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                    {/loop}
+                    <div class="module_footer"><span class="l"></span><span class="r"></span></div>
+                </div>
+            </div>
+            <!--新闻动态-->
+            <div id="module_232" style="width:45%;" class="module_box_layout_left">
+                <div class="module_box_inner">
+                    <div class="module_title">
+                        <span class="module_sign">
+                            <span class="s1">{$news1['category']}</span>
+                            <span class="s2"></span>
+                        </span>
+                        <span class="module_more"></span>
+                    </div>
+                    <div id="module_content_232" class="module_content">
+                        <ul class="wzlb_zbrq_box">
+                            <!--新闻动态列表控制6条-->
+                            {loop $news1['list'] $k $vl}
+                            <li class="col-sm-6 col-xs-12">
+                                <div class="date col-sm-3 col-xs-3">
+                                    <span class="date1">{php echo date('d',$vl['create_time']);}</span>
+                                    <span class="date2">{php echo date('Y-m',$vl['create_time']);}</span>
+                                </div>
+
+                                <div class="con col-sm-9 col-xs-9">
+                                    <a class="title"
+                                       href="{php echo url('entry/webapp/News_detail', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$vl['id']))}">{$vl['title']}</a>
+                                    <div class="introduct">{$vl['content']}</div>
+                                </div>
+                            </li>
+                            {/loop}
+                        </ul>
+                    </div>
+                    <div class="module_footer"><span class="l"></span><span class="r"></span></div>
+                </div>
+            </div>
+            <!--专业知识-->
+            <div id="module_233" style="width:45%;" class="module_box_layout_right">
+                <div class="module_box_inner">
+                    <div class="module_title">
+                        <span class="module_sign">
+                            <span class="s1">{$news2['category']}</span>
+                            <span class="s2"></span>
+                        </span>
+                        <span class="module_more"></span>
+                    </div>
+                    <div id="module_content_233" class="module_content">
+                        <ul class="wzlb_zbrq_box">
+                            {loop $news2['list'] $k $vl}
+                            <li class="col-sm-6 col-xs-12">
+                                <div class="date col-sm-3 col-xs-3">
+                                    <span class="date1">{php echo date('d',$vl['create_time']);}</span>
+                                    <span class="date2">{php echo date('Y-m',$vl['create_time']);}</span>
+                                </div>
+                                <div class="con col-sm-9 col-xs-9">
+                                    <a class="title" href="{php echo url('entry/webapp/News_detail', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$vl['id']))}">{$vl['title']}</a>
+                                    <div class="introduct">{$vl['content']}</div>
+                                </div>
+                            </li>
+                            {/loop}
+                        </ul>
+                    </div>
+                    <div class="module_footer"><span class="l"></span><span class="r"></span></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear main_box_inner_bottom"></div>
+    </div>
+    {php include $this->template('footer-enterprise')}
+</div>
+</body>
+</html>

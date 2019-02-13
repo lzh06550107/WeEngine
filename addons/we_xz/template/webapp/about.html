@@ -1,0 +1,65 @@
+﻿{php include $this->template('header-enterprise')}
+<head>
+    <title>关于我们|{$setting['keywords']}|{$setting['profile']}</title>
+</head>
+{php include $this->template('banner-enterprise')}
+<div class="main_box main_box_style1">
+    <div class="main_box_inner">
+        <div class="main_box_inner_left">
+            <div id="nav_104" class="nav_box nav_box_menu">
+                <div class="nav_title">
+                    <span class="nav_sign">关于我们</span>
+                    <span class="nav_more"></span>
+                </div>
+                <div id="nav_menu_104" class="nav_menu">
+                    <ul id="rootul_104">
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Fengmian', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="首页">首页</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="露天棚">露天棚</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="电动智能天幕蓬">电动智能天幕蓬</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="系统阳光房">系统阳光房</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="户外铝艺">户外铝艺</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="合作方式">合作方式</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/News', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="资讯中心">资讯中心</a></li>
+
+                        <li id="sl688"><a href="{php echo url('entry/webapp/Contact', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="联系我们">联系我们</a></li>
+                        <li id="sl688"><a href="{php echo url('entry/webapp/About', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}" class="sla688" title="关于我们">关于我们</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main_box_inner_right">
+            <div class="current_location current_location_688">
+                <ul>
+                    <li class="current_location_1">当前位置：
+                        <a href="{php echo url('entry/webapp/Fengmian', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">首页</a> >
+                        <a href="{php echo url('entry/webapp/About', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">关于我们</a>
+                    </li>
+                    <li class="current_location_2">关于我们</li>
+                </ul>
+            </div>
+            <div class="sublanmu_box sublanmu_box_688">
+                <div class="sublanmu_content sublanmu_content_introduct">
+                    {$setting['about']}
+                    <p><br/></p>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear main_box_inner_bottom"></div>
+</div>
+<!--底部-->
+{php include $this->template('footer-enterprise')}
+</div>
+</body>
+</html>

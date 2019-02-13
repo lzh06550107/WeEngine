@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.52,0.6">
+	<application setting="false" >
+		<name><![CDATA[欣作官网]]></name>
+		<identifie><![CDATA[we_xz]]></identifie>
+		<version><![CDATA[1.0.2]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[欣作官网发布动态]]></ability>
+		<description><![CDATA[公司发布一些雨棚遮阳蓬铝艺等产品的相关信息]]></description>
+		<author><![CDATA[欣作团队]]></author>
+		<url><![CDATA[]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports>
+			<item type="webapp" />
+		</supports>
+	</platform>
+	<bindings>
+		<cover>
+			<entry title="封面" do="fengmian" state="" direct="" icon="" />
+		</cover>
+		<menu>
+			<entry title="设置" do="set" state="" direct="" icon="" />
+			<entry title="首页轮播图" do="slides" state="" direct="" icon="" />
+			<entry title="联系方式" do="contact" state="" direct="" icon="" />
+			<entry title="产品类别" do="category" state="list" direct="" icon="" />
+			<entry title="产品列表" do="show" state="" direct="" icon="" />
+			<entry title="新闻列表" do="news" state="list" direct="" icon="" />
+			<entry title="文章分类" do="news_class" state="list" direct="" icon="" />
+		</menu>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[upgrade.php]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>
+	{if !empty($title)} 
+		{$title} -
+	{elseif !empty($_W['page']['title'])} 
+		{$_W['page']['title']} -
+	{/if} 
+	{if !empty($_W['page']['sitename'])}
+		{$_W['page']['sitename']} 
+	{else}
+		{$_W['account']['name']} 
+	{/if} 
+	</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/util.js"></script>
+	<script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20170802"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/mui.min.js?v=20170802"></script>
+	<script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/common.js?v=20170802"></script>
+	<link href="{$_W['siteroot']}app/resource/css/bootstrap.min.css?v=20170802" rel="stylesheet">
+	<link href="{$_W['siteroot']}app/resource/css/common.min.css?v=20170802" rel="stylesheet">
+	<style>
+/*新底部*/
+    .mui-btn-green, .mui-btn-positive, .mui-btn-success {
+    background-color: #23BD81;
+    border: 1px solid #23BD81;
+    }
+    .mui-message .mui-msg-error {
+    background: transparent url('../addons/bsht_tbk/res/images/ms-error.png') no-repeat center center;
+    }
+	.mui-message .mui-msg-success {
+    background: transparent url('../addons/bsht_tbk/res/images/ms-success.png') no-repeat center center;
+    }
+    .mui-content-padded{
+    background:#fff;
+    }
+	.mui-btn{
+	width: 80%;
+    margin: 0 auto;
+    margin-top: 50px;
+	}
+	.mui-message h4.title {
+	margin-top: 20px;
+	}
+	.mui-message .mui-message-icon {
+    margin-top: 25%;
+    text-align: center;
+    }
+
+.mui-content{
+background:#fff;
+}
+.mui-content-padded{
+max-width:640px;
+left:0px;
+right:0px;
+margin:auto;
+background:#fff;
+}
+.mui-bar-nav{
+max-width:640px;
+left:0px;
+right:0px;
+margin:auto;
+}
+#nb-menu {
+    position: fixed;
+    border-top: #f0f0f0 1px solid;
+    background: #fff;
+    z-index: 99999;
+    width: 100%;
+	max-width:640px;
+	bottom:0px;
+	left:0px;
+	right:0px;
+	margin:auto;
+}
+
+#nb-menu ul {
+    display: -webkit-box;
+    width: 100%;
+	height:46px;
+	margin:0 auto;
+	-webkit-padding-start: 0px;
+}
+
+#nb-menu li {
+    -webkit-box-flex: 1;
+    font-size: 12px;
+    padding: 4px 0;
+    text-align: center;
+    height: 38px;
+    line-height: 15px;
+    color: #999;
+	width:25%;
+}
+
+#nb-menu li .font-div {
+    color: #999999 !important;
+	margin-top:-7px;
+}
+
+#nb-menu li .menu-inside {
+}
+
+#nb-menu li .menu-inside span {
+    display: block;
+    margin: 0 auto 3px auto;
+    width: 21px;
+    height: 21px;
+    background-size: contain !important;
+}
+
+#nb-menu li .menu-inside i {
+    display: block;
+    margin: 0 auto 0px auto;
+    width: 25px;
+    height: 25px;
+    font-size: 25px;
+	color: #999999;
+	padding-top:3px;
+	margin-bottom:3px;
+    background-size: contain !important;
+}
+.link-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.nb-relative {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.go-top {
+    display: block;
+    width: 42px;
+    height: 42px;
+    position: fixed;
+    right: 20px;
+    bottom: 64px;
+    z-index: 10000;
+    background-image: url('{$res}images/go_top.png');
+    background-size: contain;
+    opacity: 0;
+    -webkit-transition: bottom .8s ease, opacity .6s ease;
+}
+.top-button-show {
+    bottom: 54px;
+    opacity: 1;
+}
+.top-button-hide {
+    bottom: -54px;
+    opacity: 0;
+}
+.go-top span {
+    position: absolute;
+    bottom: 9px;
+    width: 100%;
+    display: block;
+    height: 12px;
+    line-height: 12px;
+    text-align: center;
+    font-size: 10px;
+    color: #333;
+}
+.result-img{
+    position: relative;
+    float: left;
+    padding: .06533rem 0rem;
+    width: 2.9rem;
+    height: 2.9133rem;
+    border-bottom: 1px #e5e5e5 solid;
+    color: #999;
+	background:#fff;
+}
+.result-img img {
+    width: 2.88rem;
+    height: 2.88rem;
+    vertical-align: middle;
+
+}
+.result-desc {
+    position: relative;
+    float: right;
+    padding: .06533rem .24rem .06533rem .1rem;
+    width: 6.74rem;
+    height: 2.9133rem;
+    border-bottom: 1px #e5e5e5 solid;
+    color: #999;
+	background:#fff;
+}
+</style>
+	<script type="text/javascript">
+	if(navigator.appName == 'Microsoft Internet Explorer'){
+		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+			alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+		}
+	}
+	window.sysinfo = {
+		{if !empty($_W['uniacid'])}'uniacid': '{$_W['uniacid']}',{/if}
+		{if !empty($_W['acid'])}'acid': '{$_W['acid']}',{/if}{if !empty($_W['openid'])}'openid': '{$_W['openid']}',{/if}
+		{if !empty($_W['uid'])}'uid': '{$_W['uid']}',{/if}
+		'siteroot': '{$_W['siteroot']}',
+		'siteurl': '{$_W['siteurl']}',
+		'attachurl': '{$_W['attachurl']}',
+		'attachurl_local': '{$_W['attachurl_local']}',
+		'attachurl_remote': '{$_W['attachurl_remote']}',
+		{if defined('MODULE_URL')}'MODULE_URL': '{MODULE_URL}',{/if}
+		'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'}
+	};
+	// jssdk config 对象
+	jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'hideMenuItems',
+		'showMenuItems',
+		'hideAllNonBaseMenuItem',
+		'showAllNonBaseMenuItem',
+		'translateVoice',
+		'startRecord',
+		'stopRecord',
+		'onRecordEnd',
+		'playVoice',
+		'pauseVoice',
+		'stopVoice',
+		'uploadVoice',
+		'downloadVoice',
+		'chooseImage',
+		'previewImage',
+		'uploadImage',
+		'downloadImage',
+		'getNetworkType',
+		'openLocation',
+		'getLocation',
+		'hideOptionMenu',
+		'showOptionMenu',
+		'closeWindow',
+		'scanQRCode',
+		'chooseWXPay',
+		'openProductSpecificView',
+		'addCard',
+		'chooseCard',
+		'openCard',
+		'openAddress'
+	];
+	</script>
+</head>
+<body style="max-width:640px;margin:0 auto;left:0px;right:0px">
+<div class="container container-fill">

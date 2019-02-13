@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.012wz.com" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[幸运微砍价]]></name>
+		<identifie><![CDATA[bf_kanjia]]></identifie>
+		<version><![CDATA[3.0.2]]></version>
+		<type><![CDATA[activity]]></type>
+		<ability><![CDATA[超级微砍价，砍砍！！！！！]]></ability>
+		<description><![CDATA[超级微砍价，砍砍！！！！！！]]></description>
+		<author><![CDATA[不错吧]]></author>
+		<url><![CDATA[bbs.bcb5.com]]></url>
+	</application>
+	<platform>
+		<subscribes>
+			<message type="text" />
+		</subscribes>
+		<handles>
+			<message type="text" />
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+	</platform>
+	<bindings>
+		<rule>
+			<entry title="参与用户" do="record" state="" direct="false" />
+		</rule>
+		<menu>
+			<entry title="砍价管理" do="manager" state="" direct="false" />
+			<entry title="商家管理" do="shop" state="" direct="false" />
+		</menu>
+	</bindings>
+	<install><![CDATA[CREATE TABLE IF NOT EXISTS `ims_bf_kanjia` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '表id',
+  `rid` int(10) NOT NULL COMMENT '规则id',
+  `uid` int(10) NOT NULL COMMENT '用户id',
+  `uniacid` int(10) NOT NULL COMMENT '公号id',
+  `title` varchar(100) NOT NULL COMMENT '标题|商品名称',
+  `cover` varchar(255) NOT NULL COMMENT '封面',
+  `starttime` int(10) NOT NULL COMMENT '开始时间',
+  `endtime` int(10) NOT NULL COMMENT '结束时间',
+  `tel` varchar(20) NOT NULL COMMENT '客服电话',
+  `buy_type` tinyint(1) NOT NULL COMMENT '购买模式',
+  `join_url` varchar(500) NOT NULL COMMENT '入驻链接',
+  `follow_url` varchar(500) NOT NULL COMMENT '关注链接',
+  `follow_must` tinyint(1) NOT NULL COMMENT '参与强制关注',
+  `follow_must_help` tinyint(1) NOT NULL COMMENT '帮砍强制关注',
+  `max_help` int(10) NOT NULL COMMENT '最大帮砍次数',
+  `notice` varchar(2000) NOT NULL COMMENT '须知',
+  `rules` varchar(2000) NOT NULL COMMENT '规则',
+  `blacklist_nickname` varchar(2000) NOT NULL COMMENT '粉丝昵称数组',
+  `blacklist_openid` varchar(2000) NOT NULL COMMENT '粉丝编号数组',
+  `blacklist_notice` varchar(200) NOT NULL COMMENT '黑名单提示',
+  `product_name` varchar(255) NOT NULL COMMENT '商品名称',
+  `product_image` varchar(255) NOT NULL COMMENT '产品图片',
+  `product_price` decimal(10,2) NOT NULL COMMENT '原价',
+  `product_pricelow` decimal(10,2) NOT NULL COMMENT '底价',
+  `product_inventory` int(10) NOT NULL COMMENT '库存',
+  `product_sold` int(10) NOT NULL DEFAULT '0' COMMENT '已售',
+  `product_detail` varchar(5000) NOT NULL COMMENT '详情',
+  `product_url` varchar(500) NOT NULL COMMENT '产品链接',
+  `share_title` varchar(255) NOT NULL COMMENT '分享标题',
+  `share_link` varchar(255) NOT NULL COMMENT '分享链接',
+  `share_imgUrl` varchar(255) NOT NULL COMMENT '分享图片',
+  `share_desc` varchar(255) NOT NULL COMMENT '分享介绍',
+  `number_join` int(10) NOT NULL DEFAULT '0' COMMENT '参与人数',
+  `number_help` int(10) NOT NULL DEFAULT '0' COMMENT '助力人数',
+  `footer` varchar(500) NOT NULL COMMENT '页面底部',
+  `ip_max` int(10) NOT NULL COMMENT 'ip限制次数',
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态',
+  `qrcode` tinyint(1) NOT NULL DEFAULT '0' COMMENT '二维码核销',
+  `createtime` int(10) NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bf_kanjia_help` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '行id',
+  `uniacid` int(10) NOT NULL COMMENT '公号id',
+  `rid` int(10) NOT NULL COMMENT '砍价记录id',
+  `openid` varchar(50) NOT NULL COMMENT '粉丝openid',
+  `nickname` varchar(50) NOT NULL COMMENT '粉丝名称',
+  `headimgurl` varchar(255) NOT NULL COMMENT '头像',
+  `price` decimal(10,2) NOT NULL COMMENT '砍掉的价格',
+  `ip` varchar(20) NOT NULL COMMENT 'ip地址',
+  `createtime` int(10) NOT NULL COMMENT '插入时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bf_kanjia_order` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '行id',
+  `uniacid` int(10) NOT NULL COMMENT '公号id',
+  `acid` int(10) NOT NULL COMMENT '子公号id',
+  `kid` int(10) NOT NULL COMMENT '砍价id',
+  `rid` int(10) NOT NULL COMMENT '砍价记录id',
+  `uid` int(10) NOT NULL COMMENT '用户id',
+  `openid` varchar(50) NOT NULL COMMENT '粉丝openid',
+  `name` varchar(20) NOT NULL COMMENT '姓名',
+  `address` varchar(255) NOT NULL COMMENT '地址',
+  `tel` varchar(20) NOT NULL COMMENT '联系方式',
+  `uniontid` varchar(50) NOT NULL COMMENT '订单编号',
+  `price` decimal(10,2) NOT NULL COMMENT '金额',
+  `remark` varchar(255) NOT NULL COMMENT '备注',
+  `expressname` varchar(50) NOT NULL COMMENT '物流公司',
+  `expresscode` varchar(50) NOT NULL COMMENT '物流单号',
+  `status` tinyint(1) NOT NULL COMMENT '状态',
+  `usetime` int(10) NOT NULL COMMENT '使用时间',
+  `createtime` int(10) NOT NULL COMMENT '插入时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bf_kanjia_record` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '行id',
+  `uniacid` int(10) NOT NULL COMMENT '公号id',
+  `acid` int(10) NOT NULL COMMENT '子公号id',
+  `kid` int(10) NOT NULL COMMENT '砍价id',
+  `uid` int(10) NOT NULL COMMENT '粉丝会员id',
+  `openid` varchar(50) NOT NULL COMMENT '粉丝id',
+  `nickname` varchar(50) NOT NULL COMMENT '粉丝名称',
+  `headimgurl` varchar(255) NOT NULL COMMENT '粉丝头像',
+  `price` decimal(10,2) NOT NULL COMMENT '剩下的价格',
+  `number_help` int(10) NOT NULL DEFAULT '0' COMMENT '助力人次',
+  `createtime` int(10) NOT NULL COMMENT '插入的时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ims_bf_kanjia_shop` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `uniacid` int(10) NOT NULL COMMENT '公号id',
+  `uid` int(10) NOT NULL COMMENT '对应的用户id',
+  `rule` varchar(2000) NOT NULL COMMENT '权限',
+  `createtime` int(10) NOT NULL COMMENT '插入时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_bf_kanjia`;
+DROP TABLE IF EXISTS `ims_bf_kanjia_help`;
+DROP TABLE IF EXISTS `ims_bf_kanjia_order`;
+DROP TABLE IF EXISTS `ims_bf_kanjia_record`;
+DROP TABLE IF EXISTS `ims_bf_kanjia_shop`;
+]]></uninstall>
+	<upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

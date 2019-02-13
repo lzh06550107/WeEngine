@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.52,0.6">
+	<application setting="false" >
+		<name><![CDATA[举个栗子]]></name>
+		<identifie><![CDATA[we7_eg]]></identifie>
+		<version><![CDATA[1.0.1]]></version>
+		<type><![CDATA[other]]></type>
+		<ability><![CDATA[测试]]></ability>
+		<description><![CDATA[这里是模块功能介绍和使用说明。]]></description>
+		<author><![CDATA[FishoO_O]]></author>
+		<url><![CDATA[]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+		</handles>
+		<rule embed="false" />
+		<card embed="false" />
+		<supports>
+			<item type="phoneapp" />
+		</supports>
+	</platform>
+	<bindings>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[]]></install>
+	<uninstall><![CDATA[]]></uninstall>
+	<upgrade><![CDATA[]]></upgrade>
+</manifest>

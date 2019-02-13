@@ -1,0 +1,75 @@
+﻿{php include $this->template('header-enterprise')}
+<head>
+    <title>产品列表|{$setting['keywords']}|{$setting['profile']}</title>
+</head>
+{php include $this->template('banner-enterprise')}
+<div class="main_box main_box_style1">
+    <div class="main_box_inner">
+        <div class="main_box_inner_left">
+            <div id="nav_131" class="nav_box nav_box_menu">
+                <div class="nav_title">
+                    <span class="nav_sign">产品中心</span>
+                    <span class="nav_more"></span>
+                </div>
+
+                <div id="nav_menu_131" class="nav_menu">
+                    <ul id="rootul_131">
+                        {loop $arr $key $val}
+                        <li id="sl755 current"><a class="sla755">{$val['title']}</a>
+                            <ul>
+                                {loop $val['next'] $k $v}
+                                <li id="sl802"><span></span><a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$v['id']))}" class="sla802">{$v['title']}</a></li>
+                                {/loop}
+                            </ul>
+                        </li>
+                        {/loop}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="main_box_inner_right" style="overflow-y: scroll;">
+            <div class="current_location current_location_755">
+                <ul>
+                    <li class="current_location_1">当前位置：
+                        <a href="{php echo url('entry/webapp/Fengmian', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">首页</a>
+                        >
+                        <a href="{php echo url('entry/webapp/Product_list', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">产品中心</a>
+                        >
+                        <a>露天蓬</a>
+                    </li>
+                    <li class="current_location_2">产品中心</li>
+                </ul>
+            </div>
+
+            <div class="sublanmu_box sublanmu_box_755">
+                <div class="sublanmu_content sublanmu_content_product">
+                    <!-- 商品详情页 -->
+                    <ul class="tpzs_box">
+                        {loop $res['rows'] $k $vo}
+                        <li class="tpzs_animate col-sm-3 col-xs-6">
+                            <a class="pic"
+                               href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$vo['id']))}"><img
+                                    src="{$_W['attachurl']}{$vo['img_url']}"
+                                    title="{$val['title']}" alt="{$val['title']}" style="height:165px;"/></a>
+                            <a class="tpzs_title"
+                               href="{php echo url('entry/webapp/Product', array('eid' => $_GPC['eid'], 'm' => 'we_xz','id'=>$vo['id']))}">{$vo['title']}</a>
+                        </li>
+                        {/loop}
+                    </ul>
+                    <div style="padding-left:400px;display:block;">{$res['page']}</div>
+                    <div class="sublanmu_page">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear main_box_inner_bottom"></div>
+</div>
+
+
+<!--底部-->
+{php include $this->template('footer-enterprise')}
+</div>
+</body>
+</html>

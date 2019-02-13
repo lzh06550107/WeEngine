@@ -1,0 +1,10 @@
+{template 'common/header'}
+{template 'web/module-header'}
+<ul class="nav nav-tabs">
+    <li {if $act == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('wxapp')}">早起打卡</a></li>
+    <li {if $act == 'signlog'}class="active"{/if}><a href="{php echo $this->createWebUrl('wxapp', array('act' => 'signlog'))}">活动记录</a></li>
+    <li {if $act == 'reward'}class="active"{/if}><a href="{php echo $this->createWebUrl('wxapp', array('act' => 'reward'))}">奖金</a></li>
+    <li {if $act == 'log'}class="active"{/if}><a href="{php echo $this->createWebUrl('wxapp', array('act' => 'log'))}">日志</a></li>
+</ul>
+{template "web/$do/$act"}
+{template 'common/footer'}

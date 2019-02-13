@@ -1,0 +1,1 @@
+<ul class="letters-list cut-wechat-letters"><li ng-click="searchResult('')"><a href="javascript:;">不限</a></li><li ng-repeat="letter in alphabet" ng-style="{'background-color': letter == activeLetter ? '#ddd' : 'none'}" ng-class="{'active': letter == activeLetter}" ng-click="searchResult(letter)"><a href="javascript:;" ng-bind="letter"></a></li></ul>

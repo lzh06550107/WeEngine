@@ -1,0 +1,46 @@
+{php include $this->template('header-enterprise')}
+<head>
+    <title>新闻详情|{$setting['keywords']}|{$setting['profile']}</title>
+</head>
+{php include $this->template('banner-enterprise')}
+<div class="main_box main_box_style1">
+    <div class="main_box_inner">
+        <div class="main_box_inner_right" style="margin: auto;float: none">
+            <div class="current_location current_location_755">
+                <ul>
+                    <li class="current_location_1">当前位置：
+                        <a href="{php echo url('entry/webapp/Fengmian', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">首页</a>
+                        >
+                        <a href="{php echo url('entry/webapp/News', array('eid' => $_GPC['eid'], 'm' => 'we_xz'))}">资讯中心</a>
+                        >
+                        <a>资讯中心</a>
+                    </li>
+                    <li class="current_location_2">资讯中心</li>
+                </ul>
+            </div>
+            <div class="sublanmu_box sublanmu_box_755">
+                <div class="sublanmu_content sublanmu_content_product">
+                    <!-- 商品详情页 -->
+                    <div class="news-xqy">
+                        <h5>{$list['title']}介绍</h5>
+                        <h6>发布时间：{php echo date('Y-m-d H:i:s',$list['create_time'])}</h6>
+                        <div class="news_nr">
+                            <p style="text-align: center; -ms-text-justify: inter-ideograph;"><span
+                                    style="color: rgb(255, 0, 0); font-family: 宋体; font-size: 20px;"><span
+                                    style="font-family: 宋体;"><span style="font-family: 宋体; font-size: 16px;"><span
+                                    style="font-family: 宋体; font-size: 16px;">&nbsp;
+                               <img width="643" height="505" title="{$list['title']}" alt="{$list['title']}.jpg"
+                                    src="{$_W['attachurl']}{$list['img_url']}"/></span></span></span></span></p>
+                            {$list['content']}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear main_box_inner_bottom"></div>
+    </div>
+    <!--底部-->
+    {php include $this->template('footer-enterprise')}
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{template 'common/header'}
+{template 'web/module-header'}
+<div class="main">
+	<form class="form-horizontal form" id="form2" action="" method="post" enctype="multipart/form-data">
+        <a id="anchor_wxapp"></a>
+        <div class="panel panel-default">
+                <div class="panel-heading">
+                    小程序参数
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">打卡金额</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            <div class="input-group">
+                                <input type="text" name="wxapp[money]" class="form-control" value="1" readonly>
+                                <span class="input-group-addon">元</span>
+                            </div>
+                            <div class="help-block">设置每天支付1元，可参与早起打卡活动</div>
+                            <div class="help-block sup-star">注意：不能低于1元，否则无法发放奖金</div>
+                            <div class="help-block sup-star" style="font-weight: bold">体验版本不支持</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">首页背景图</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            {php echo tpl_form_field_image('wxapp[index_imgbg]', $this->module['config']['wxapp']['index_imgbg'])}
+                            <div class="help-block">建议尺寸：420*220px</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">我的背景图</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            {php echo tpl_form_field_image('wxapp[my_imgbg]', $this->module['config']['wxapp']['my_imgbg'])}
+                            <div class="help-block">建议尺寸：420*220px</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">规则</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            {php echo tpl_ueditor('wxapp[rule]', $this->module['config']['wxapp']['rule'])}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">证书</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            <input type="file" name="apiclient_cert" {if isset($this->module['config']['wxapp']['apiclient_cert'])}value="{php echo $this->module['config']['wxapp']['apiclient_cert']}"{/if}>
+                            <span class="help-block">证书下载解压后，默认文件名为：apiclient_cert.pem，请选择对应文件</span>
+                            <span class="help-block">
+                                {if isset($this->module['config']['wxapp']['apiclient_cert']) && $this->module['config']['wxapp']['apiclient_cert'] != ''}
+                                <a href="{php echo tomedia($this->module['config']['wxapp']['apiclient_cert'])}" class="sup-link" target="_blank">点击下载</a><br/>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="wxapp[del_apiclient_cert]"> <span style="color: #f00">删除</span>
+                                </label>
+                                {/if}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">证书密钥</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            <input type="file" name="apiclient_key" {if isset($this->module['config']['wxapp']['apiclient_key'])}value="{php echo $this->module['config']['wxapp']['apiclient_key']}"{/if}>
+                            <span class="help-block">证书下载解压后，默认文件名为：apiclient_key.pem，请选择对应文件</span>
+                            <span class="help-block">
+                                {if isset($this->module['config']['wxapp']['apiclient_key']) && $this->module['config']['wxapp']['apiclient_key'] != ''}
+                                <a href="{php echo tomedia($this->module['config']['wxapp']['apiclient_key'])}" class="sup-link" target="_blank">点击下载</a><br/>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="wxapp[del_apiclient_key]"> <span style="color: #f00">删除</span>
+                                </label>
+                                {/if}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">CA证书</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            <input type="file" name="rootca" {if isset($this->module['config']['wxapp']['rootca'])}value="{php echo $this->module['config']['wxapp']['rootca']}"{/if}>
+                            <span class="help-block">证书下载解压后，默认文件名为：rootca.pem，请选择对应文件</span>
+                            <span class="help-block">
+                                {if isset($this->module['config']['wxapp']['rootca']) && $this->module['config']['wxapp']['rootca'] != ''}
+                                <a href="{php echo tomedia($this->module['config']['wxapp']['rootca'])}" class="sup-link" target="_blank">点击下载</a><br/>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="wxapp[del_rootca]"> <span style="color: #f00">删除</span>
+                                </label>
+                                {/if}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 control-label">自动结算奖金</label>
+                        <div class="col-sm-6 col-md-8 col-xs-12">
+                            <div class="input-group">
+                                <label class="radio-inline">
+                                    <input type="radio" disabled> 开启
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" disabled checked> 关闭
+                                </label>
+                            </div>
+                            <span class="help-block">需在服务器配置crontab自动运行任务服务，暂不支持windows系统。</span>
+                            <div class="help-block sup-star" style="font-weight: bold">体验版本不支持</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		<div class="form-group col-sm-12">
+			<input name="token" type="hidden" value="{$_W['token']}" />
+			<input type="submit" class="btn btn-primary" name="submit" value="提交" />
+		</div>
+	</form>
+</div>
+{template 'common/footer'}

@@ -1,0 +1,22 @@
+<!--banner-->
+<div class="main_visual">
+	<div class="flicking_con">
+		<div class="flicking_inner">
+			<a href="">1</a>
+			<a href="">2</a>
+			<a href="">3</a>
+			<!-- <a href="http://www.xmcms.net">4</a>
+            <a href="http://www.xmcms.net">5</a> -->
+		</div>
+	</div>
+	<div class="main_image">
+		<ul>
+			{loop $slides $key $pic}
+			<li><span class="img_{$key}" style="background: url('{$_W['attachurl']}{$pic['img']}') center top no-repeat;"></span></li>
+			{/loop}
+		</ul>
+		<a href="javascript:;" id="btn_prev"></a>
+		<a href="javascript:;" id="btn_next"></a>
+	</div>
+</div>
+<!--end banner-->
